@@ -47,4 +47,3 @@ for (const day of days) {
   calendarGrid.appendChild(div);
 }
 
-console.log(days);
