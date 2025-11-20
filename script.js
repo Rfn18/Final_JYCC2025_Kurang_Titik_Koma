@@ -129,11 +129,8 @@ function createEventItem(event) {
 
 async function renderEventList(year, month) {
   const wrapper = document.querySelector(".event-list-wrapper");
-
   wrapper.innerHTML = `<p class="loading">Memuat event...</p>`;
-
   const events = await getEventsByMonth(year, month);
-
   wrapper.innerHTML = "";
 
   if (events.length === 0) {
@@ -186,7 +183,6 @@ async function renderCalendar() {
     days.push({ date, type });
   }
 
-  // 🔥 Render grid hari + indikator event
   for (const day of days) {
     const div = document.createElement("div");
     div.classList.add("day-cell");
@@ -209,18 +205,16 @@ async function renderCalendar() {
     num.textContent = day.date;
     div.appendChild(num);
 
-    // 🔥 Tambahkan EVENT INDICATOR jika ada event
     if (day.type === "current" && eventMap[day.date]) {
       const count = eventMap[day.date].length;
 
       const indicator = document.createElement("div");
       indicator.classList.add("event-indicator");
 
-      const colors = ["yellow", "purple", "red"];
-      indicator.classList.add(
-        colors[Math.floor(Math.random() * colors.length)]
-      );
+      const firstEvent = eventMap[day.date][0];
+      const color = getEventColor(firstEvent.id || firstEvent.nama_event);
 
+      indicator.classList.add(color);
       indicator.textContent = `${count} Event`;
 
       div.appendChild(indicator);
