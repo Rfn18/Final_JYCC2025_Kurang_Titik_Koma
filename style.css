@@ -8,9 +8,116 @@ body {
   font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
   background: #fff;
-  padding: 20px;
   width: 100%;
   height: 100vh;
+}
+
+header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  height: 60px;
+  width: 100%;
+  margin-bottom: 2em;
+  box-shadow: 0px -5px 10px 0px #000000;
+}
+
+.header-logo {
+  height: 60px;
+}
+
+.header-logo img {
+  max-width: 121px;
+  max-height: 121px;
+  object-fit: contain;
+  display: block;
+}
+.container-text-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 54px;
+  font-weight: 500;
+  color: #1c352d;
+}
+
+.container-text-header a {
+  font-size: 14px;
+  color: #1c352d;
+  text-decoration: none;
+}
+
+.container-tools-header {
+  display: flex;
+  justify-self: end;
+  align-items: center;
+  gap: 12px;
+}
+
+.language-selector {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  cursor: pointer;
+}
+
+.language-selector p {
+  font-size: 14px;
+  color: #333;
+}
+
+.container-tools-header .lang-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.container-tools-header .arrow-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.light_and_dark {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #f2f4f6;
+  padding: 12px 18px;
+  border-radius: 24px;
+  cursor: pointer;
+}
+
+.light_and_dark .light-mode {
+  align-self: center;
+  width: 24px;
+  height: 24px;
+}
+
+.auth .btn-login,
+.auth .btn-signup {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 18px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  background-color: #fff;
+}
+
+.auth .btn-login {
+  color: #1c352d;
+  border: 1px solid #ddd;
+}
+
+.auth .btn-login:hover {
+  background-color: #f5f5f5;
+}
+
+.auth .btn-signup {
+  background-color: #fefa17;
+  color: #1c352d;
 }
 
 .container {
@@ -81,6 +188,16 @@ body {
   font-size: 14px;
   font-weight: 600;
   color: #333;
+}
+
+.calendar-header-text {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+  background: #e0e0e0;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  overflow: hidden;
 }
 
 .calendar-grid {
