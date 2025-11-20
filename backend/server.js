@@ -39,13 +39,13 @@ app.get("/events", async (req, res) => {
   res.json(data);
 });
 
-app.get("/events/:tanggal", async (req, res) => {
-  const { tanggal } = req.params;
+app.get("/events/:tanggal_mulai", async (req, res) => {
+  const { tanggal_mulai } = req.params;
 
   const { data, error } = await supabase
     .from("events")
     .select("*")
-    .eq("tanggal", tanggal);
+    .eq("tanggal_mulai", tanggal_mulai);
 
   if (error) return res.status(500).json({ error });
 
@@ -118,9 +118,9 @@ app.get("/events/month/:year/:month", async (req, res) => {
   const { data, error } = await supabase
     .from("events")
     .select("*")
-    .gte("tanggal", start)
-    .lte("tanggal", end)
-    .order("tanggal", { ascending: true });
+    .gte("tanggal_mulai", start)
+    .lte("tanggal_mulai", end)
+    .order("tanggal_mulai", { ascending: true });
 
   if (error) return res.status(500).json({ error: error.message });
 
