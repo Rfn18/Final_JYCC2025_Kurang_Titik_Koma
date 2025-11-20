@@ -39,13 +39,13 @@ app.get("/events", async (req, res) => {
   res.json(data);
 });
 
-app.get("/events/:date", async (req, res) => {
-  const { date } = req.params;
+app.get("/events/:tanggal", async (req, res) => {
+  const { tanggal } = req.params;
 
   const { data, error } = await supabase
     .from("events")
     .select("*")
-    .eq("date", date);
+    .eq("tanggal", tanggal);
 
   if (error) return res.status(500).json({ error });
 
@@ -53,11 +53,22 @@ app.get("/events/:date", async (req, res) => {
 });
 
 app.post("/events", async (req, res) => {
-  const { title, description, date } = req.body;
+  const {
+    nama_event,
+    lokasi,
+    jam_mulai,
+    jam_selesai,
+    tanggal,
+    no_wa,
+    email,
+    harga_tiket,
+  } = req.body;
 
-  if (!title || !date) {
-    return res.status(400).json({ error: "title & date wajib" });
+  if (!nama_event || !tanggal) {
+    return res.status(400).json({ error: "Nama event & tanggal wajib diisi" });
   }
+
+  const finalHarga = harga_tiket ? harga_tiket : "Free";
 
   const { data, error } = await supabase
     .from("events")
@@ -70,7 +81,7 @@ app.post("/events", async (req, res) => {
         tanggal,
         no_wa,
         email,
-        harga_tiket,
+        harga_tiket: finalHarga,
       },
     ])
     .select()
@@ -93,4 +104,25 @@ app.delete("/events/:id", async (req, res) => {
 
 app.listen(3000, () => {
   console.log("Server berjalan di port 3000");
+});
+
+app.get("/events/month/:year/:month", async (req, res) => {
+  const { year, month } = req.params;
+
+  const monthString = String(month).padStart(2, "0");
+  const lastDay = new Date(year, month, 0).getDate();
+
+  const start = `${year}-${monthString}-01`;
+  const end = `${year}-${monthString}-${lastDay}`;
+
+  const { data, error } = await supabase
+    .from("events")
+    .select("*")
+    .gte("tanggal", start)
+    .lte("tanggal", end)
+    .order("tanggal", { ascending: true });
+
+  if (error) return res.status(500).json({ error: error.message });
+
+  res.json(data);
 });
