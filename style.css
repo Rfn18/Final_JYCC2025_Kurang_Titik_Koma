@@ -17,7 +17,7 @@ body {
   display: grid;
   grid-template-columns: 1fr 400px;
   gap: 20px;
-  max-width: 1600px;
+  max-width: 100%;
   margin: 0 auto;
 }
 
@@ -26,6 +26,7 @@ body {
   border-radius: 16px;
   padding: 30px;
   border: 1px solid #ddd;
+  height: 100%;
 }
 
 .today-button {
@@ -74,7 +75,10 @@ body {
 }
 
 .month-year {
-  font-size: 20px;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  font-size: 14px;
   font-weight: 600;
   color: #333;
 }
@@ -100,7 +104,7 @@ body {
 
 .day-cell {
   background: white;
-  min-height: 90px;
+  min-height: 65px;
   padding: 10px;
   position: relative;
   cursor: pointer;
@@ -128,6 +132,12 @@ body {
   font-weight: 500;
   margin-bottom: 5px;
   margin-right: 10px;
+}
+
+.today {
+  color: #d4a017;
+  border-radius: 8px;
+  font-weight: bold;
 }
 
 .event-indicator {
@@ -211,12 +221,18 @@ body {
 
 /* Event List Section */
 .event-list-section {
-  display: flex;
-  flex-direction: column;
-
+  display: block;
+  border: 1px solid #ddd;
   background: white;
   border-radius: 16px;
   padding: 30px;
+}
+
+.event-list-wrapper {
+  display: flex;
+  flex-direction: column;
+  max-height: 450px;
+  overflow-y: auto;
 }
 
 .event-list-title {
