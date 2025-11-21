@@ -71,25 +71,24 @@ async function getEventsByMonth(year, month) {
   }
 }
 
-function getEventColor(eventId) {
-  const colors = ["yellow", "purple", "red"];
-  const hash = eventId
-    ? String(eventId)
-        .split("")
-        .reduce((acc, char) => {
-          return acc + char.charCodeAt(0);
-        }, 0)
-    : Math.random() * 100;
-  return colors[Math.floor(hash % 3)];
+function getEventColor(eventDateString) {
+  const eventDate = new Date(eventDateString);
+
+  const diffTime = eventDate - today;
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+  if (diffDays <= 2) return "red";
+  if (diffDays <= 7) return "yellow";
+  return "purple";
 }
 
 function createEventItem(event) {
-  const color = getEventColor(event.id || event.nama_event);
+  const color = getEventColor(event.tanggal_mulai);
 
   return `
     <div class="event-item">
         <div class="event-date ${color}">${new Date(
-    event.tanggal
+    event.tanggal_mulai
   ).getDate()}</div>
 
         <div class="event-timeline ${color}">
@@ -108,7 +107,7 @@ function createEventItem(event) {
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
-                ${event.lokasi ?? "-"}
+                ${event.location ?? "-"}
             </div>
 
             <div class="event-info">
@@ -154,7 +153,7 @@ async function renderCalendar() {
 
   const eventMap = {};
   events.forEach((ev) => {
-    const day = new Date(ev.tanggal).getDate();
+    const day = new Date(ev.tanggal_mulai).getDate();
     if (!eventMap[day]) eventMap[day] = [];
     eventMap[day].push(ev);
   });
@@ -212,7 +211,14 @@ async function renderCalendar() {
       indicator.classList.add("event-indicator");
 
       const firstEvent = eventMap[day.date][0];
-      const color = getEventColor(firstEvent.id || firstEvent.nama_event);
+      const color = getEventColor(firstEvent.tanggal_mulai);
+
+      console.log(
+        "Warna indikator untuk tanggal",
+        firstEvent.tanggal_mulai,
+        "adalah",
+        color
+      );
 
       indicator.classList.add(color);
       indicator.textContent = `${count} Event`;
@@ -224,7 +230,7 @@ async function renderCalendar() {
   }
 }
 
-nextBtn.addEventListener("click", () => {
+nextBtn.addEventListener("click", async () => {
   month++;
 
   if (month > 11) {
@@ -232,11 +238,11 @@ nextBtn.addEventListener("click", () => {
     year++;
   }
 
-  renderCalendar();
-  renderEventList(year, month);
+  await renderCalendar();
+  await renderEventList(year, month);
 });
 
-prevBtn.addEventListener("click", () => {
+prevBtn.addEventListener("click", async () => {
   month--;
 
   if (month < 0) {
@@ -244,14 +250,9 @@ prevBtn.addEventListener("click", () => {
     year--;
   }
 
-  renderCalendar();
-  renderEventList(year, month);
+  await renderCalendar();
+  await renderEventList(year, month);
 });
 
 renderCalendar();
 renderEventList(year, month);
-
-const todayDateString = formatDateString(todayYear, todayMonth, todayDate);
-getEventsByDate(todayDateString).then((events) => {
-  console.log("Event hari ini:", events);
-});

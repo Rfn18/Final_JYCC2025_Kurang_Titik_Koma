@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beranda Destinasi</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<style>
+    /* RESET DASAR */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        /* Ganti dengan font yang Anda gunakan */
+        color: #333;
+        /* Warna teks umum */
+        background-color: #fff;
+        line-height: 1.6;
+    }
+
+    /* WARNA UTAMA (Estimasi dari gambar) */
+    :root {
+        --primary-color: #FFC107;
+        /* Kuning utama */
+        --secondary-color: #0C1E3F;
+        /* Biru gelap untuk teks/footer */
+        --text-light: #6c757d;
+        --bg-light-yellow: #FEF7E6;
+        /* Background event/how it works */
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px;
+    }
+
+    /* ==================================== */
+    /* 1. HEADER / HERO SECTION */
+    /* ==================================== */
+
+    .hero-section {
+        background-image: url('hero-bg-placeholder.jpg');
+        /* Ganti dengan gambar hero di latar belakang */
+        background-size: cover;
+        background-position: center;
+        height: 80vh;
+        /* Sesuaikan tinggi */
+        color: white;
+        position: relative;
+        padding-top: 20px;
+    }
+
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 50px;
+        /* Padding samping */
+        /* Posisi navbar terlihat seperti sedikit di dalam container */
+    }
+
+    .navbar a {
+        color: white;
+        text-decoration: none;
+        margin: 0 15px;
+        font-weight: 600;
+    }
+
+    .btn-login {
+        background: transparent;
+        border: 1px solid white;
+        color: white;
+        padding: 8px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-right: 10px;
+    }
+
+    .btn-register {
+        background: var(--primary-color);
+        border: none;
+        color: var(--secondary-color);
+        padding: 8px 20px;
+        border-radius: 5px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .hero-content {
+        text-align: center;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+    }
+
+    .hero-content h1 {
+        font-size: 3em;
+        margin-bottom: 20px;
+    }
+
+    .search-bar {
+        display: flex;
+        justify-content: center;
+        margin-top: 30px;
+    }
+
+    .search-bar input {
+        padding: 15px 20px;
+        border: none;
+        border-radius: 8px 0 0 8px;
+        width: 400px;
+    }
+
+    .btn-search {
+        background: var(--primary-color);
+        color: var(--secondary-color);
+        padding: 15px 30px;
+        border: none;
+        border-radius: 0 8px 8px 0;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+
+    /* ==================================== */
+    /* 2. FEATURED COLLECTION */
+    /* ==================================== */
+
+    .featured-collection,
+    .how-it-works,
+    .top-destination,
+    .event-list {
+        padding: 60px 0;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .featured-collection h2 {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .collection-tabs {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .collection-tabs button {
+        background: white;
+        border: 1px solid #ccc;
+        color: #333;
+        padding: 10px 20px;
+        margin: 0 5px;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .collection-tabs button.active,
+    .collection-tabs button:hover {
+        background: var(--secondary-color);
+        color: white;
+        border-color: var(--secondary-color);
+    }
+
+    .collection-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        /* 3 kolom per baris */
+        gap: 20px;
+        margin-bottom: 40px;
+    }
+
+    .card {
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        display: block;
+    }
+
+    .card-info {
+        padding: 15px;
+    }
+
+    .card-info h3 {
+        font-size: 1.2em;
+        margin-bottom: 5px;
+    }
+
+    .card-info p {
+        color: var(--text-light);
+        font-size: 0.9em;
+    }
+
+    .card-info .price {
+        font-weight: bold;
+        color: var(--secondary-color);
+        margin-top: 10px;
+    }
+
+    .btn-see-more {
+        display: block;
+        margin: 0 auto;
+        background: none;
+        border: 2px solid var(--primary-color);
+        color: var(--secondary-color);
+        padding: 10px 40px;
+        border-radius: 5px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    /* ==================================== */
+    /* 3. HOW IT WORKS SECTION */
+    /* ==================================== */
+
+    .how-it-works {
+        background-color: var(--bg-light-yellow);
+        padding-top: 80px;
+        padding-bottom: 80px;
+        position: relative;
+        overflow: hidden;
+        /* Ganti max-width jadi width 100% dan tata ulang padding agar full-width */
+        width: 100%;
+        /* Ganti padding yang tadi agar container di dalamnya tetap rapi */
+    }
+
+    .how-it-works h2 {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    .works-layout {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        max-width: 1000px;
+        /* Batasi lebar konten */
+        margin: 0 auto;
+    }
+
+    .image-column img {
+        width: 150px;
+        /* Ukuran gambar kecil, sesuaikan */
+        height: 150px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin: 10px;
+        display: block;
+    }
+
+    .steps-column {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .step-card {
+        display: flex;
+        align-items: center;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .step-card .icon {
+        background: var(--primary-color);
+        color: var(--secondary-color);
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        margin-right: 15px;
+        flex-shrink: 0;
+    }
+
+    /* ==================================== */
+    /* 4. TOP DESTINATION */
+    /* ==================================== */
+
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+
+    .btn-view-all {
+        background: none;
+        border: none;
+        color: var(--primary-color);
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .destination-layout {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        /* Kolom besar 2/3, kolom samping 1/3 */
+        gap: 20px;
+    }
+
+    .main-card {
+        position: relative;
+        border-radius: 10px;
+        overflow: hidden;
+        height: 450px;
+        /* Tinggi kartu utama, sesuaikan */
+    }
+
+    .main-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .main-card-info {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        padding: 20px;
+        color: white;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0));
+        width: 100%;
+    }
+
+    .side-cards {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .small-card {
+        position: relative;
+        border-radius: 10px;
+        overflow: hidden;
+        flex-grow: 1;
+        /* Agar membagi ruang secara merata */
+    }
+
+    .small-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Style untuk info kartu kecil (mirip main-card-info) */
+
+    /* ==================================== */
+    /* 5. EVENT LIST TODAY */
+    /* ==================================== */
+
+    .event-list h2 {
+        margin-bottom: 30px;
+    }
+
+    .event-item {
+        display: flex;
+        align-items: center;
+        border: 1px solid #eee;
+        padding: 15px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        background-color: var(--bg-light-yellow);
+        /* Untuk event item pertama */
+    }
+
+    .event-item:nth-child(even) {
+        background-color: white;
+        /* Untuk item yang tidak di highlight */
+    }
+
+
+    .event-date {
+        background: var(--secondary-color);
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+        text-align: center;
+        font-weight: bold;
+        margin-right: 20px;
+        line-height: 1.2;
+        width: 50px;
+        /* Lebar tetap */
+        flex-shrink: 0;
+    }
+
+    .event-date .day {
+        display: block;
+        font-size: 1.4em;
+    }
+
+    .event-date .month {
+        display: block;
+        font-size: 0.8em;
+    }
+
+    .event-details {
+        flex-grow: 1;
+    }
+
+    .event-details h4 {
+        margin-bottom: 5px;
+    }
+
+    .btn-detail {
+        background: var(--primary-color);
+        border: none;
+        color: var(--secondary-color);
+        padding: 8px 15px;
+        border-radius: 5px;
+        font-weight: bold;
+        cursor: pointer;
+        flex-shrink: 0;
+    }
+
+    /* ==================================== */
+    /* 6. FOOTER */
+    /* ==================================== */
+
+    .footer {
+        background-color: var(--secondary-color);
+        color: white;
+        padding: 50px 0 20px;
+    }
+
+    .footer-content {
+        display: flex;
+        justify-content: space-between;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px;
+        margin-bottom: 40px;
+    }
+
+    .footer-col {
+        width: 20%;
+    }
+
+    .footer-col h4 {
+        margin-bottom: 20px;
+        font-size: 1.1em;
+    }
+
+    .footer-col ul {
+        list-style: none;
+    }
+
+    .footer-col ul li {
+        margin-bottom: 10px;
+        cursor: pointer;
+    }
+
+    .footer-bottom {
+        text-align: center;
+        border-top: 1px solid #334466;
+        padding-top: 20px;
+        font-size: 0.9em;
+    }
+</style>
+
+<body>
+
+    <header class="hero-section">
+        <div class="navbar">
+            <div class="logo">
+                <img src="logo-placeholder.png" alt="Logo">
+            </div>
+            <nav>
+                <a href="#">Beranda</a>
+                <a href="#">Destinasi</a>
+                <a href="#">Paket</a>
+                <a href="#">Event</a>
+                <a href="#">Blog</a>
+            </nav>
+            <div class="auth-buttons">
+                <button class="btn-login">Masuk</button>
+                <button class="btn-register">Daftar</button>
+            </div>
+        </div>
+
+        <div class="hero-content">
+            <h1>Mau ke mana di Jawa Timur?</h1>
+            <div class="search-bar">
+                <input type="text" placeholder="Cari destinasi...">
+                <button class="btn-search">Cari</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="featured-collection">
+            <h2>Featured Collection</h2>
+            <div class="collection-tabs">
+                <button class="active">Semua</button>
+                <button>Wisata Alam</button>
+                <button>Budaya & Sejarah</button>
+                <button>Wisata Air</button>
+            </div>
+            <div class="collection-grid">
+                <div class="card">
+                    <img src="card1-placeholder.jpg" alt="Gunung Bromo">
+                    <div class="card-info">
+                        <h3>Gunung Bromo</h3>
+                        <p>Kec. Sukapura, Kab. Probolinggo</p>
+                        <p class="price">Rp 50.000 / Hari</p>
+                    </div>
+                </div>
+                <div class="card">...</div>
+                <div class="card">...</div>
+                <div class="card">...</div>
+                <div class="card">...</div>
+                <div class="card">...</div>
+            </div>
+            <button class="btn-see-more">Lihat Lebih Banyak</button>
+        </section>
+
+        <section class="how-it-works">
+            <h2>How It Works</h2>
+            <div class="works-layout">
+                <div class="image-column">
+                    <img src="image1-placeholder.jpg" alt="People travelling">
+                    <img src="image2-placeholder.jpg" alt="Drinks and sights">
+                </div>
+                <div class="steps-column">
+                    <div class="step-card">
+                        <div class="icon">1</div>
+                        <h3>Pilih Destinasi</h3>
+                        <p>Telusuri berbagai destinasi menarik...</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="icon">2</div>
+                        <h3>Pesan Tiket</h3>
+                        <p>Pesan tiket masuk dengan mudah...</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="icon">3</div>
+                        <h3>Nikmati Liburan</h3>
+                        <p>Rasakan pengalaman liburan yang tak terlupakan...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="top-destination">
+            <div class="section-header">
+                <h2>Top Destination</h2>
+                <button class="btn-view-all">Lihat Semua</button>
+            </div>
+            <div class="destination-layout">
+                <div class="main-card">
+                    <img src="bromo-large.jpg" alt="Gunung Bromo besar">
+                    <div class="main-card-info">
+                        <h3>Gunung Bromo</h3>
+                        <p>Trekking & Hiking</p>
+                    </div>
+                </div>
+                <div class="side-cards">
+                    <div class="small-card">
+                        <img src="side-card1.jpg" alt="Jeep Bromo">
+                        <div class="small-card-info">
+                            <h4>Bromo Jeep Tour</h4>
+                            <p>Adventure</p>
+                        </div>
+                    </div>
+                    <div class="small-card">
+                        <img src="side-card2.jpg" alt="Tumpak Sewu">
+                        <div class="small-card-info">
+                            <h4>Air Terjun Tumpak Sewu</h4>
+                            <p>Nature & Explore</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="event-list">
+            <h2>Event List Today</h2>
+            <div class="event-item">
+                <div class="event-date">
+                    <span class="day">12</span>
+                    <span class="month">FEB</span>
+                </div>
+                <div class="event-details">
+                    <h4>Festival Budaya Malang</h4>
+                    <p>Malang, Jawa Timur</p>
+                </div>
+                <button class="btn-detail">Lihat Detail</button>
+            </div>
+            <div class="event-item">...</div>
+            <div class="event-item">...</div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-col logo-col">
+                <img src="logo-footer-placeholder.png" alt="Logo Footer">
+                <p>Jelajahi keindahan Jawa Timur...</p>
+            </div>
+            <div class="footer-col">
+                <h4>Navigasi</h4>
+                <ul>
+                    <li>Beranda</li>
+                    <li>Destinasi</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Kontak Kami</h4>
+                <p>+62 812-XXXX-XXXX</p>
+            </div>
+            <div class="footer-col">
+                <h4>Ikuti Kami</h4>
+                <div class="social-icons">
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024. All right reserved.</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>
