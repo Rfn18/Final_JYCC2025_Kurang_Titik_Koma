@@ -85,8 +85,8 @@ async function scrapeDetailEvent(url) {
 
   const directionHref = $("a.btn").attr("href") || "";
   const urlParams = new URLSearchParams(directionHref.split("?")[1] || "");
-  const lat = urlParams.get("lat");
-  const long = urlParams.get("long");
+  const latitude = urlParams.get("lat");
+  const longitude = urlParams.get("long");
 
   const description = $(".isi-ket").text().trim();
 
@@ -104,8 +104,8 @@ async function scrapeDetailEvent(url) {
     tanggal_mulai: tanggal_mulai_clean,
     tanggal_selesai: tanggal_selesai_clean,
     harga_tiket,
-    lat,
-    long,
+    latitude,
+    longitude,
     description,
   };
 }
