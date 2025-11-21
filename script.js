@@ -80,8 +80,8 @@ function getEventColor(eventDateString) {
 
   if (diffDays < 0) return "purple";
 
-  if (diffDays <= 2) return "red";
-  if (diffDays <= 7) return "yellow";
+  if (diffDays <= 5) return "red";
+  if (diffDays <= 10) return "yellow";
   return "purple";
 }
 
