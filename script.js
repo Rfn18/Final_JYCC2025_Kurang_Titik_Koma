@@ -77,6 +77,8 @@ function getEventColor(eventDateString) {
   const diffTime = eventDate - today;
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
+  if (diffDays < 0) return "purple";
+
   if (diffDays <= 2) return "red";
   if (diffDays <= 7) return "yellow";
   return "purple";

@@ -1,20 +1,15 @@
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
-import { createClient } from "@supabase/supabase-js";
 import dotenv from "dotenv";
+import { supabase } from "./component/supabaseClient.js";
+import destinasiRoutes from "./routes/destinasi.routes.js";
 
 dotenv.config();
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
-
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_KEY
-);
-
 app.get("/events", async (req, res) => {
   const { year, month } = req.query;
 
@@ -126,3 +121,24 @@ app.get("/events/month/:year/:month", async (req, res) => {
 
   res.json(data);
 });
+app.get("/events/date/:year/:month/:day", async (req, res) => {
+  const { year, month, day } = req.params;
+
+  const monthString = String(month).padStart(2, "0");
+  const dayString = String(day).padStart(2, "0");
+
+  const targetDate = `${year}-${monthString}-${dayString}`;
+
+  const { data, error } = await supabase
+    .from("events")
+    .select("*")
+    .gte("tanggal_mulai", targetDate)
+    .lte("tanggal_selesai", targetDate)
+    .order("tanggal_mulai", { ascending: true });
+
+  if (error) return res.status(500).json({ error: error.message });
+
+  res.json(data);
+});
+
+app.use("/api/destinasi", destinasiRoutes);
