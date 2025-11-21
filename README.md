@@ -80,7 +80,7 @@ Pastikan Anda memiliki _software_ berikut yang terinstal di sistem Anda:
 4.  **Setup Database (Supabase)**
     Impor skema tabel yang dibutuhkan ke instance Supabase Anda.
 
-    - **Skema Tabel:** Gunakan editor SQL di Supabase dan jalankan skrip SQL yang tersedia di file **`db/events_table_schema.sql`** (Asumsi Anda membuat file SQL ini).
+    - **Skema Tabel:** Gunakan editor SQL di Supabase dan jalankan skrip SQL yang tersedia di file **`db/events_table_schema.sql`**
 
 5.  **Jalankan Scrapping dan Isi Data Awal**
     _(Pastikan Anda masih di folder `backend`)_
