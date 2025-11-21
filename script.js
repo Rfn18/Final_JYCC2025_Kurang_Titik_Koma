@@ -1,6 +1,7 @@
 const calendarGrid = document.querySelector(".calendar-grid");
 const prevBtn = document.getElementById("button-prev");
 const nextBtn = document.getElementById("button-next");
+const todayBtn = document.querySelector(".today-button");
 
 const textMonth = document.querySelector(".month");
 const textYear = document.querySelector(".year");
@@ -145,8 +146,6 @@ async function renderEventList(year, month) {
 }
 
 async function renderCalendar() {
-  console.log("Render kalender:", year, month);
-
   calendarGrid.innerHTML = "";
   textMonth.innerHTML = monthNames[month];
   textYear.innerHTML = year;
@@ -215,13 +214,6 @@ async function renderCalendar() {
       const firstEvent = eventMap[day.date][0];
       const color = getEventColor(firstEvent.tanggal_mulai);
 
-      console.log(
-        "Warna indikator untuk tanggal",
-        firstEvent.tanggal_mulai,
-        "adalah",
-        color
-      );
-
       indicator.classList.add(color);
       indicator.textContent = `${count} Event`;
 
@@ -254,6 +246,26 @@ prevBtn.addEventListener("click", async () => {
 
   await renderCalendar();
   await renderEventList(year, month);
+});
+
+function focusTodayCell() {
+  const todayCell = document.querySelector(".day-cell.today");
+  if (!todayCell) return;
+
+  todayCell.scrollIntoView({
+    behavior: "smooth",
+    block: "center",
+  });
+}
+
+todayBtn.addEventListener("click", async () => {
+  year = todayYear;
+  month = todayMonth;
+
+  await renderCalendar();
+  await renderEventList(year, month);
+
+  focusTodayCell();
 });
 
 renderCalendar();
