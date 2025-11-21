@@ -21,8 +21,6 @@
 
 ## 💡 Tentang Proyek
 
-## 💡 Tentang Proyek
-
 **Panggih** adalah **Kalender Event** berbasis web yang dirancang untuk membantu **wisatawan** menemukan _event_ budaya, pariwisata, dan kegiatan yang sedang atau akan berlangsung di sekitar tempat wisata di **Jawa Timur (Jatim)**.
 
 Proyek ini dibangun menggunakan tumpukan teknologi (Stack) utama berikut:
