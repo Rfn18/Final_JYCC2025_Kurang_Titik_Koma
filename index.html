@@ -20,14 +20,14 @@
         <div class="header-logo">
             <img src="/public/image/2_20251118_083533_0001-removebg-preview 1.png" alt="logo_panggih" class="header-logo">
         </div>
-        <div class="container-text-header">
+        <div class="container-text-header" id="nav-menu">
             <a href="#" class="header-text">Home</a>
             <a href="#" class="header-text">Destination</a>
             <a href="#" class="header-text">Umkm</a>
             <a href="#" class="header-text">Calendar</a>
             <a href="#" class="header-text">Contact</a>
         </div>
-        <div class="container-tools-header">
+        <div class="container-tools-header" id="tools-menu">
             <div class="language-selector">
                 <img src="/public/image/lang.svg.png" alt="lang" class="lang-icon">
                 <p class="language-name">ID</p>
@@ -40,6 +40,11 @@
                 <button class="btn-login">Login</button>
                 <button class="btn-signup">Sign Up</button>
             </div>
+        </div>
+         <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
         </div>
     </header>
     <div class="container">
@@ -71,7 +76,6 @@
         </div>
         <div class="event-list-section">
             <h2 class="event-list-title">Event List</h2>
-
             <div class="event-list-wrapper">
             </div>
 

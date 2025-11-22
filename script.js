@@ -11,6 +11,24 @@ const todayDate = today.getDate();
 const todayMonth = today.getMonth();
 const todayYear = today.getFullYear();
 
+function toggleMenu() {
+  const hamburger = document.getElementById("hamburger");
+  const navMenu = document.getElementById("nav-menu");
+  const toolsMenu = document.getElementById("tools-menu");
+
+  hamburger.classList.toggle("active");
+  navMenu.classList.toggle("active");
+  toolsMenu.classList.toggle("active");
+}
+
+document.querySelectorAll(".container-text-header a").forEach((link) => {
+  link.addEventListener("click", () => {
+    document.getElementById("hamburger").classList.remove("active");
+    document.getElementById("nav-menu").classList.remove("active");
+    document.getElementById("tools-menu").classList.remove("active");
+  });
+});
+
 const monthNames = [
   "Januari",
   "Februari",
@@ -33,6 +51,18 @@ function formatDateString(year, month, date) {
   const monthStr = String(month + 1).padStart(2, "0");
   const dateStr = String(date).padStart(2, "0");
   return `${year}-${monthStr}-${dateStr}`;
+}
+
+function removeSeconds(timeString) {
+  return timeString.slice(0, 5);
+}
+
+function toRupiah(value) {
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    minimumFractionDigits: 0,
+  }).format(value);
 }
 
 function getDaysInMonth(year, month) {
@@ -118,11 +148,13 @@ function createEventItem(event) {
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                ${event.jam_mulai} - ${event.jam_selesai}
+                ${removeSeconds(event.jam_mulai)} - ${removeSeconds(
+    event.jam_selesai
+  )}
             </div>
 
             <div class="event-price">Harga Tiket <strong>${
-              event.harga_tiket
+              event.harga_tiket == 0 ? toRupiah(event.harga_tiket) : "0"
             }</strong></div>
         </div>
     </div>

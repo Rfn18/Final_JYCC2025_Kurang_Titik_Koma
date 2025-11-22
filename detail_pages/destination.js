@@ -1,3 +1,33 @@
+function toggleMenu() {
+  const hamburger = document.getElementById("hamburger");
+  const navMenu = document.getElementById("nav-menu");
+  const toolsMenu = document.getElementById("tools-menu");
+
+  hamburger.classList.toggle("active");
+  navMenu.classList.toggle("active");
+  toolsMenu.classList.toggle("active");
+}
+
+function removeSeconds(timeString) {
+  return timeString.slice(0, 5);
+}
+
+function toRupiah(value) {
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    minimumFractionDigits: 0,
+  }).format(value);
+}
+
+document.querySelectorAll(".container-text-header a").forEach((link) => {
+  link.addEventListener("click", () => {
+    document.getElementById("hamburger").classList.remove("active");
+    document.getElementById("nav-menu").classList.remove("active");
+    document.getElementById("tools-menu").classList.remove("active");
+  });
+});
+
 const API_BASE_URL = "http://localhost:3000";
 
 /* ---------------------- Haversine Distance ---------------------- */
@@ -130,9 +160,9 @@ async function loadDetail() {
     window.destinasiData = destinasi;
 
     fillFields(".nama_destinasi", destinasi.nama_destinasi);
-    fillFields(".harga_tiket", destinasi.harga_tiket);
+    fillFields(".harga_tiket", toRupiah(destinasi.harga_tiket));
     fillFields(".alamat", destinasi.alamat);
-    fillFields(".jam_buka", destinasi.jam_buka);
+    fillFields(".jam_buka", removeSeconds(destinasi.jam_buka));
 
     document.getElementById("fasilitas").innerText =
       destinasi.fasilitas?.fasilitas || "-";

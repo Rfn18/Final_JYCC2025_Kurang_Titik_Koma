@@ -10,31 +10,59 @@ body {
   background: #fff;
   color: #1c352d;
 }
-
 header {
   position: sticky;
   top: 0;
   display: grid;
   grid-template-columns: auto 1fr auto;
-  justify-content: space-between;
   align-items: center;
   padding: 0 20px;
   height: 60px;
   width: 100%;
-  margin-bottom: 2em;
   background-color: #fff;
-  box-shadow: 0px -5px 10px 0px #000000;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
 }
 
 .header-logo {
   height: 60px;
+  display: flex;
+  align-items: center;
 }
 
 .header-logo img {
-  max-width: 121px;
-  max-height: 121px;
+  max-width: 100px;
+  max-height: 50px;
   object-fit: contain;
-  display: block;
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 10px;
+  z-index: 1001;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background-color: #1c352d;
+  border-radius: 3px;
+  transition: all 0.3s;
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(6px, 6px);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
 }
 
 .container-text-header {
@@ -42,19 +70,22 @@ header {
   justify-content: center;
   align-items: center;
   gap: 30px;
-  font-weight: 500;
-  color: #1c352d;
 }
 
 .container-text-header a {
   font-size: 14px;
+  font-weight: 500;
   color: #1c352d;
   text-decoration: none;
+  transition: color 0.2s;
+}
+
+.container-text-header a:hover {
+  color: #fefa17;
 }
 
 .container-tools-header {
   display: flex;
-  justify-self: end;
   align-items: center;
   gap: 12px;
 }
@@ -71,12 +102,8 @@ header {
   color: #333;
 }
 
-.container-tools-header .lang-icon {
-  width: 24px;
-  height: 24px;
-}
-
-.container-tools-header .arrow-icon {
+.lang-icon,
+.arrow-icon {
   width: 24px;
   height: 24px;
 }
@@ -84,33 +111,36 @@ header {
 .light_and_dark {
   display: flex;
   align-items: center;
-  gap: 8px;
   background-color: #f2f4f6;
-  padding: 12px 18px;
+  padding: 10px 14px;
   border-radius: 24px;
   cursor: pointer;
 }
 
 .light_and_dark .light-mode {
-  align-self: center;
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
+}
+
+.auth {
+  display: flex;
+  gap: 8px;
 }
 
 .auth .btn-login,
 .auth .btn-signup {
   font-size: 14px;
   font-weight: 600;
-  padding: 12px 18px;
+  padding: 10px 16px;
   border-radius: 20px;
   border: none;
   cursor: pointer;
   transition: all 0.2s;
-  background-color: #fff;
 }
 
 .auth .btn-login {
   color: #1c352d;
+  background-color: #fff;
   border: 1px solid #ddd;
 }
 
@@ -123,6 +153,103 @@ header {
   color: #1c352d;
 }
 
+.auth .btn-signup:hover {
+  background-color: #e6e215;
+}
+
+@media (max-width: 992px) {
+  .container-text-header {
+    gap: 20px;
+  }
+
+  .container-text-header a {
+    font-size: 13px;
+  }
+
+  .auth .btn-login,
+  .auth .btn-signup {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+}
+
+/* Mobile - 768px */
+@media (max-width: 768px) {
+  header {
+    grid-template-columns: auto 1fr auto;
+    padding: 0 15px;
+  }
+
+  .hamburger {
+    display: flex;
+    justify-self: end;
+  }
+
+  .container-text-header {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background-color: #fff;
+    padding: 20px;
+    gap: 0;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    transform: translateY(-150%);
+    transition: transform 0.3s ease;
+    z-index: 999;
+  }
+
+  .container-text-header.active {
+    transform: translateY(0);
+  }
+
+  .container-text-header a {
+    padding: 15px 0;
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    font-size: 16px;
+  }
+
+  .container-text-header a:last-child {
+    border-bottom: none;
+  }
+
+  .container-tools-header {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background-color: #fff;
+    padding: 20px;
+    gap: 15px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    transform: translateY(-250%);
+    transition: transform 0.3s ease;
+    z-index: 998;
+  }
+
+  .container-tools-header.active {
+    transform: translateY(calc(100% + 80px));
+  }
+
+  .auth {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .auth .btn-login,
+  .auth .btn-signup {
+    flex: 1;
+    text-align: center;
+  }
+
+  .light_and_dark {
+    margin-top: 1em;
+  }
+}
 .parralax-1 {
   height: 100dvh;
   padding: 0 4em;
@@ -513,7 +640,7 @@ header {
 }
 
 .footer {
-  background: #1e3a5f;
+  background: #1c352d;
   color: #fff;
   padding: 40px;
   margin-top: 40px;
@@ -529,29 +656,27 @@ header {
 
 .footer-logo {
   display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
+  align-items: start;
 }
 
-.footer-logo-icon {
-  width: 32px;
-  height: 32px;
-  background: linear-gradient(135deg, #60a5fa, #3b82f6);
-  border-radius: 50%;
+.footer-logo img {
+  position: absolute;
+  left: 45px;
+  width: 100px;
 }
 
 .footer-desc {
   font-size: 12px;
-  color: #94a3b8;
+  color: #ffff;
   line-height: 1.6;
+  padding-top: 3.5em;
 }
 
 .footer-title {
   font-size: 14px;
   font-weight: 600;
   margin-bottom: 16px;
-  color: #60a5fa;
+  color: #ffc700;
 }
 
 .footer-links {
@@ -561,7 +686,8 @@ header {
 }
 
 .footer-links a {
-  color: #94a3b8;
+  color: #fff;
+  opacity: 0.8;
   text-decoration: none;
   font-size: 13px;
 }
@@ -589,26 +715,34 @@ header {
 
 .newsletter-input input {
   flex: 1;
-  padding: 10px 12px;
-  border: 1px solid #334155;
-  border-radius: 6px;
-  background: #1e3a5f;
+  padding: 14px 16px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  background: #1c352d;
   color: #fff;
   font-size: 13px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
 }
 
-.newsletter-input input::placeholder {
-  color: #64748b;
+.newsletter-input input:focus {
+  outline: none;
 }
 
 .subscribe-btn {
-  background: #22c55e;
-  color: #fff;
+  background: #e6e215;
+  color: #1c352d;
   border: none;
   padding: 10px 16px;
-  border-radius: 6px;
+  border-radius: 20px;
   cursor: pointer;
   font-size: 13px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
 }
 
 .footer-bottom {
@@ -617,5 +751,5 @@ header {
   margin-top: 30px;
   border-top: 1px solid #334155;
   font-size: 12px;
-  color: #64748b;
+  color: #fff;
 }
