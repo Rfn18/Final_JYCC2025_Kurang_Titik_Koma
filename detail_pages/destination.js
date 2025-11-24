@@ -103,7 +103,7 @@ function fillFields(selector, value) {
 }
 
 /* ---------------------- Render Event Cards ---------------------- */
-function renderEventCards(events) {   
+function renderEventCards(events) {
   const wrapper = document.querySelector(".card-wrapper");
   if (!wrapper) return;
 

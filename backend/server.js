@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import { supabase } from "./component/supabaseClient.js";
 import destinasiRoutes from "./routes/destinasi.routes.js";
+import umkmRoutes from "./routes/umkm.routes.js";
 
 dotenv.config();
 
@@ -142,3 +143,4 @@ app.get("/events/date/:year/:month/:day", async (req, res) => {
 });
 
 app.use("/api/destinasi", destinasiRoutes);
+app.use("/api/umkm", umkmRoutes);

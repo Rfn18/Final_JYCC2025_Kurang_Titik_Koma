@@ -381,8 +381,11 @@
     .card-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        /* 3 kolom */
         gap: 20px;
+    }
+
+    .card-grid a {
+        text-decoration: none;
     }
 
     /* Card Item */
@@ -448,6 +451,7 @@
         font-weight: 600;
         line-height: 1.2;
         margin-bottom: 5px;
+
     }
 
     .card-location {
@@ -727,74 +731,7 @@
                 </div>
 
 
-                <div class="card-grid">
-
-                    <div class="destination-card">
-                        <div class="card-header">
-                            <img src="../public/image/gunung.png" alt="Gunung Kelud">
-                            <span class="rating">⭐️ 4.96 <small>(672 reviews)</small></span>
-                        </div>
-                        <div class="card-body">
-                            <h4 class="card-title">Gunung Kelud <br> Kabupaten Kediri</h4>
-                            <p class="card-location">📍 Kab. Kediri, E. Java, Ind.</p>
-                            <div class="card-footer">
-                                <span class="price">Rp. 30.000 <small>/person</small></span>
-                                <button class="btn-provide">Provide</button>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="destination-card">
-                        <div class="card-header">
-                            <img src="../public/image/pantai-tiga-warna.png" alt="Pantai Tiga Warna">
-
-                            <span class="rating">⭐️ 4.96 <small>(672 reviews)</small></span>
-                        </div>
-                        <div class="card-body">
-                            <h4 class="card-title">Pantai Tiga Warna <br> Kab. Malang</h4>
-                            <p class="card-location">📍 Kab. Malang, E. Java, Ind.</p>
-                            <div class="card-footer">
-                                <span class="price">Rp. 30.000 <small>/person</small></span>
-                                <button class="btn-provide">Provide</button>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="destination-card">
-                        <div class="card-header">
-                            <img src="../public/image/Batu-love-garden.png" alt="Batu Love Garden">
-
-                            <span class="rating">⭐️ 4.96 <small>(672 reviews)</small></span>
-                        </div>
-                        <div class="card-body">
-                            <h4 class="card-title">Batu Love Garden <br> Malang</h4>
-                            <p class="card-location">📍 Batu, E. Java, Ind.</p>
-                            <div class="card-footer">
-                                <span class="price">Rp. 15.000 <small>/person</small></span>
-                                <button class="btn-provide">Provide</button>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="destination-card">
-                        <div class="card-header">
-                            <img src="../public/image/Air Terjun.png" alt="Air">
-                            <span class="rating">⭐️ 4.96 <small>(672 reviews)</small></span>
-                        </div>
-                        <div class="card-body">
-                            <h4 class="card-title">Air Terjun Tumpak Sewu <br> Lumajang</h4>
-                            <p class="card-location">📍 Lumajang, E. Java, Ind.</p>
-                            <div class="card-footer">
-                                <span class="price">Rp. 30.000 <small>/person</small></span>
-                                <button class="btn-provide">Provide</button>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
+                <div class="card-grid"></div>
 
                 <!-- Pagination -->
                 <div class="pagination">
@@ -881,28 +818,37 @@
         toolsMenu.classList.toggle("active");
     }
 
+    function toRupiah(value) {
+        return new Intl.NumberFormat("id-ID", {
+            style: "currency",
+            currency: "IDR",
+            minimumFractionDigits: 0,
+        }).format(value);
+    }
+
     const API_BASE_URL = "http://localhost:3000";
 
     async function getDestinasi() {
-        const response = await fetch(`${API_BASE_URL}/api/destinasi/$`);
+        const response = await fetch(`${API_BASE_URL}/api/destinasi/`);
         if (!response.ok)
             throw new Error(`Destinasi tidak ditemukan`);
         return response.json();
     }
 
     function renderEventCards(events) {
-        const wrapper = document.querySelector(".card-wrapper");
+        const wrapper = document.querySelector(".card-grid");
         if (!wrapper) return;
 
         wrapper.innerHTML = "";
 
         if (!events || events.length === 0) {
-            wrapper.innerHTML = `<div class="event-desc">Belum ada event di sekitar destinasi.</div>`;
+            wrapper.innerHTML = `<div class="event-desc">Belum ada destinasi wisata.</div>`;
             return;
         }
 
         events.forEach((event, index) => {
             const card = `
+                <a href="../detail_pages/destination_page.html?id=${event.id}">
                     <div class="destination-card" id="card-items">
                         <div class="card-header">
                             <img src="${event.image}">
@@ -910,19 +856,36 @@
                             <span class="rating">⭐️ 4.96 <small>(672 reviews)</small></span>
                         </div>
                         <div class="card-body">
-                            <h4 class="card-title"${events.nama_destinasi}</h4>
-                            <p class="card-location">${events.alamat}</p>
+                            <h4 class="card-title"${event.nama_destinasi}</h4>
+                            <p class="card-location">${event.alamat}</p>
                             <div class="card-footer">
-                                <span class="price">${events.harga}<small>/person</small></span>
+                                <span class="price">${event.harga_tiket ? toRupiah(event.harga_tiket) : "Rp. 0"}<small>/person</small></span>
                                 <button class="btn-provide">Provide</button>
                             </div>
-                        </div>
+                        </div>  
                     </div>
+                </a>
                  `;
 
             wrapper.insertAdjacentHTML("beforeend", card);
         });
     }
+
+
+    async function loadCards() {
+        const [destinasi] = await Promise.all([
+            getDestinasi()
+        ]);
+
+        try {
+            renderEventCards(destinasi)
+
+        } catch (err) {
+            console.error(err, "gagal mengambil data")
+        }
+    }
+
+    loadCards()
 
 </script>
 
