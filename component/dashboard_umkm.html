@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard UMKM - Panggih</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* Variabel Warna Disesuaikan */
+        :root {
+            --primary-green: #1c352d;
+            --primary-blue: #5352ed;
+            /* Warna ikon dan link aktif */
+            --bg-gray: #f8f8f8;
+            /* Background utama body */
+            --card-bg: #fff;
+            --text-dark: #333;
+            --text-medium: #6c757d;
+            --sidebar-bg: #fff;
+            --active-bg: #e0e0f0;
+            --card-radius: 8px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-gray);
+            color: var(--text-dark);
+            line-height: 1.5;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.2s;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            padding: 0 20px;
+            height: 60px;
+            width: 100%;
+            background-color: #fff;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .header-logo {
+            height: 60px;
+            display: flex;
+            align-items: center;
+        }
+
+        .header-logo img {
+            max-width: 100px;
+            max-height: 50px;
+            object-fit: contain;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 10px;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background-color: #1c352d;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+
+        .container-text-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .container-text-header a {
+            font-size: 14px;
+            font-weight: 500;
+            color: #1c352d;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .container-text-header a:hover {
+            color: #fefa17;
+        }
+
+        .container-tools-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .language-selector {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            cursor: pointer;
+        }
+
+        .language-selector p {
+            font-size: 14px;
+            color: #333;
+        }
+
+        .lang-icon,
+        .arrow-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        .light_and_dark {
+            display: flex;
+            align-items: center;
+            background-color: #f2f4f6;
+            padding: 10px 14px;
+            border-radius: 24px;
+            cursor: pointer;
+        }
+
+        .light_and_dark .light-mode {
+            width: 20px;
+            height: 20px;
+        }
+
+        .auth {
+            display: flex;
+            gap: 8px;
+        }
+
+        .auth .btn-login,
+        .auth .btn-signup {
+            font-size: 14px;
+            font-weight: 600;
+            padding: 10px 16px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .auth .btn-login {
+            color: #1c352d;
+            background-color: #fff;
+            border: 1px solid #ddd;
+        }
+
+        .auth .btn-login:hover {
+            background-color: #f5f5f5;
+        }
+
+        .auth .btn-signup {
+            background-color: #fefa17;
+            color: #1c352d;
+        }
+
+        .auth .btn-signup:hover {
+            background-color: #e6e215;
+        }
+
+        @media (max-width: 992px) {
+            .container-text-header {
+                gap: 20px;
+            }
+
+            .container-text-header a {
+                font-size: 13px;
+            }
+
+            .auth .btn-login,
+            .auth .btn-signup {
+                padding: 8px 12px;
+                font-size: 13px;
+            }
+        }
+
+        /* Mobile - 768px */
+        @media (max-width: 768px) {
+            header {
+                grid-template-columns: auto 1fr auto;
+                padding: 0 15px;
+            }
+
+            .hamburger {
+                display: flex;
+                justify-self: end;
+            }
+
+            .container-text-header {
+                position: fixed;
+                top: 60px;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                background-color: #fff;
+                padding: 20px;
+                gap: 0;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+                transform: translateY(-150%);
+                transition: transform 0.3s ease;
+                z-index: 999;
+            }
+
+            .container-text-header.active {
+                transform: translateY(0);
+            }
+
+            .container-text-header a {
+                padding: 15px 0;
+                width: 100%;
+                text-align: center;
+                border-bottom: 1px solid #eee;
+                font-size: 16px;
+            }
+
+            .container-text-header a:last-child {
+                border-bottom: none;
+            }
+
+            .container-tools-header {
+                position: fixed;
+                top: 60px;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                background-color: #fff;
+                padding: 20px;
+                gap: 15px;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+                transform: translateY(-250%);
+                transition: transform 0.3s ease;
+                z-index: 998;
+            }
+
+            .container-tools-header.active {
+                transform: translateY(calc(100% + 80px));
+            }
+
+            .auth {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .auth .btn-login,
+            .auth .btn-signup {
+                flex: 1;
+                text-align: center;
+            }
+
+            .light_and_dark {
+                margin-top: 1em;
+            }
+        }
+
+        .main-nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        .main-nav a {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-medium);
+        }
+
+        .main-nav a:hover {
+            color: var(--primary-green);
+        }
+
+        .user-tools {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .language-selector {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            border: 1px solid #ccc;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--primary-green);
+        }
+
+        .profile-icon {
+            font-size: 20px;
+        }
+
+        /* ================================================= */
+        /* --- DASHBOARD LAYOUT (MAIN & SIDEBAR) --- */
+        /* ================================================= */
+        .dashboard-layout {
+            display: flex;
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+            gap: 30px;
+        }
+
+        .sidebar {
+            width: 200px;
+            background-color: var(--sidebar-bg);
+            border-radius: var(--card-radius);
+            padding: 20px 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            height: fit-content;
+        }
+
+        .sidebar-title {
+            display: flex;
+            align-items: center;
+            padding: 0 20px 15px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 15px;
+            color: var(--text-medium);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .sidebar-title i {
+            margin-right: 10px;
+            color: var(--primary-blue);
+        }
+
+        .nav-links {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            font-size: 14px;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .nav-item i {
+            margin-right: 15px;
+            color: var(--text-medium);
+            width: 20px;
+            /* Lebar tetap untuk ikon */
+            text-align: center;
+        }
+
+        .nav-item.active {
+            background-color: var(--primary-blue);
+            color: white;
+            border-radius: 0 20px 20px 0;
+
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-item.active i {
+            color: white;
+        }
+
+        /* ================================================= */
+        /* --- FORM CONTENT --- */
+        /* ================================================= */
+        .form-content {
+            flex: 1;
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: var(--card-radius);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-header-search {
+            margin-bottom: 25px;
+        }
+
+        .search-bar {
+            position: relative;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: var(--card-bg);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .search-bar input {
+            border: none;
+            background: transparent;
+            padding-left: 10px;
+            width: 90%;
+            font-family: inherit;
+            font-size: 16px;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+        }
+
+        .search-icon {
+            color: var(--text-medium);
+            font-size: 16px;
+        }
+
+        /* Form Grid */
+        .umkm-form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 5px;
+            /* Kurangi margin bawah karena gap sudah ada */
+        }
+
+        .input-group.full-width {
+            grid-column: span 2;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        input:not([type="file"]),
+        select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 1em;
+            transition: border-color 0.2s;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+        }
+
+        /* Time Input Styling */
+        .input-group.time-group {
+            position: relative;
+        }
+
+        .input-group.time-group input {
+            padding-right: 35px;
+        }
+
+        .time-icon {
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+            color: var(--text-medium);
+            pointer-events: none;
+        }
+
+        /* Kontak Hint */
+        .contact-hint {
+            font-size: 0.9em;
+            color: var(--text-medium);
+            margin: 10px 0 5px 0;
+        }
+
+        /* File Upload Area */
+        .file-upload-area {
+            margin-top: 15px;
+        }
+
+        .drop-zone {
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            background-color: var(--bg-gray);
+            transition: background-color 0.2s;
+        }
+
+        .drop-zone:hover {
+            background-color: #f0f0f0;
+        }
+
+        .upload-icon {
+            font-size: 2em;
+            color: var(--primary-blue);
+            margin-bottom: 5px;
+        }
+
+        .drop-zone p {
+            margin: 5px 0;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .drop-zone small {
+            color: var(--text-medium);
+            font-size: 0.8em;
+        }
+
+        .file-preview {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .uploaded-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+
+        /* Tombol Aksi */
+        .form-actions {
+            grid-column: span 2;
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .btn-reset {
+            background-color: #a0a0a0;
+            /* Warna abu-abu tombol reset */
+            color: white;
+            margin-right: 15px;
+        }
+
+        .btn-reset:hover {
+            opacity: 0.9;
+        }
+
+        .btn-submit {
+            /* Dalam gambar tombol submit tidak terlihat, saya asumsikan warna default */
+            background-color: var(--primary-green);
+            color: white;
+        }
+
+
+        .footer {
+            background: #1c352d;
+            color: #fff;
+            padding: 40px;
+            margin-top: 40px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr 1.2fr;
+            gap: 40px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: start;
+        }
+
+        .footer-logo img {
+            position: absolute;
+            left: 45px;
+            width: 100px;
+        }
+
+        .footer-desc {
+            font-size: 12px;
+            color: #ffff;
+            line-height: 1.6;
+            padding-top: 3.5em;
+        }
+
+        .footer-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #ffc700;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .footer-links a {
+            color: #fff;
+            opacity: 0.8;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .footer-links a:hover {
+            color: #fff;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .social-links a {
+            color: #94a3b8;
+            font-size: 18px;
+        }
+
+        .newsletter-input {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .newsletter-input input {
+            flex: 1;
+            padding: 14px 16px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            background: #1c352d;
+            color: #fff;
+            font-size: 13px;
+            -webkit-border-radius: 20px;
+            -moz-border-radius: 20px;
+            -ms-border-radius: 20px;
+            -o-border-radius: 20px;
+        }
+
+        .newsletter-input input:focus {
+            outline: none;
+        }
+
+        .subscribe-btn {
+            background: #e6e215;
+            color: #1c352d;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 13px;
+            -webkit-border-radius: 20px;
+            -moz-border-radius: 20px;
+            -ms-border-radius: 20px;
+            -o-border-radius: 20px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            margin-top: 30px;
+            border-top: 1px solid #334155;
+            font-size: 12px;
+            color: #fff;
+        }
+
+
+        /* Media Queries dasar */
+        @media (max-width: 992px) {
+            .dashboard-layout {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                padding: 20px;
+            }
+
+            .sidebar-title {
+                border-bottom: none;
+                margin-bottom: 0;
+            }
+
+            .nav-links {
+                flex-direction: row;
+                gap: 10px;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .nav-item {
+                border-radius: 8px;
+                margin-right: 0;
+            }
+
+            .nav-item.active {
+                border-radius: 8px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .umkm-form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .input-group.full-width {
+                grid-column: span 1;
+            }
+
+            .main-nav,
+            .language-selector {
+                display: none;
+            }
+
+            .header-logo {
+                margin-right: auto;
+            }
+        }
+    </style>
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="header-logo">
+            <img src="/public/image/2_20251118_083533_0001-removebg-preview 1.png" alt="logo_panggih"
+                class="header-logo" />
+        </div>
+        <div class="container-text-header">
+            <a href="./destinasi.html" class="header-text">Home</a>
+            <a href="./destinasi_page.html" class="header-text">Destination</a>
+            <a href="./dashboard_umkm.html" class="header-text">Umkm</a>
+            <a href="../index.html" class="header-text">Calendar</a>
+            <a href="#" class="header-text">Contact</a>
+        </div>
+        <div class="container-tools-header">
+            <div class="language-selector">
+                <img src="/public/image/lang.svg.png" alt="lang" class="lang-icon" />
+                <p class="language-name">ID</p>
+                <img src="/public/image/arrow-down-sm.svg.png" alt="arrow-down" class="arrow-icon" />
+            </div>
+            <div class="light_and_dark">
+                <img src="/public/image/light.svg.png" alt="light-mode-icon" class="light-mode" />
+            </div>
+            <div class="auth">
+                <button class="btn-login">Login</button>
+                <button class="btn-signup">Sign Up</button>
+            </div>
+        </div>
+        <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
+    <main class="dashboard-layout">
+
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">
+                    <i class="fas fa-signal"></i>
+                    <span>Status</span>
+                </div>
+                <div class="nav-links">
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Destinasi
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        Event
+                    </a>
+                    <a href="#" class="nav-item active">
+                        <i class="fas fa-store"></i>
+                        UMKM
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <section class="form-content">
+
+            <div class="form-header-search">
+                <div class="search-bar">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" placeholder="Search" aria-label="Search">
+                </div>
+            </div>
+
+            <form id="umkmDashboardForm" class="umkm-form-grid">
+
+                <div class="input-group full-width">
+                    <label for="umkm-name">Nama UMKM</label>
+                    <input type="text" id="umkm-name" name="umkmName" value="Warung Bu Sri" placeholder="Nama UMKM">
+                </div>
+                <div class="input-group full-width">
+                    <label for="dest-name">Nama Lengkap Destinasi Wisata</label>
+                    <input type="text" id="dest-name" name="destName" placeholder="Nama Lengkap Destinasi Wisata">
+                </div>
+
+                <div class="input-group full-width">
+                    <label for="location">Lokasi/Alamat</label>
+                    <input type="text" id="location" name="location" placeholder="Alamat Lengkap Lokasi">
+                </div>
+                <div class="input-group full-width">
+                    <label for="detail-address">Alamat detail lokasi wisata</label>
+                    <input type="text" id="detail-address" name="detailAddress"
+                        placeholder="Alamat detail lokasi wisata">
+                </div>
+
+                <div class="input-group">
+                    <label for="latitude">Latitude (Garis Lintang) *</label>
+                    <input type="text" id="latitude" name="latitude" value="-6.54789" required>
+                </div>
+                <div class="input-group">
+                    <label for="longitude">Longitude (Garis Lintang) *</label>
+                    <input type="text" id="longitude" name="longitude" value="-6.54789" required>
+                </div>
+
+                <div class="input-group time-group">
+                    <label for="open-time">Jam Buka *</label>
+                    <input type="text" id="open-time" name="openTime" value="---" placeholder="--:--">
+                    <i class="fas fa-clock time-icon"></i>
+                </div>
+                <div class="input-group time-group">
+                    <label for="close-time">Jam Tutup *</label>
+                    <input type="text" id="close-time" name="closeTime" value="---" placeholder="--:--">
+                    <i class="fas fa-clock time-icon"></i>
+                </div>
+
+                <p class="contact-hint full-width">Kontak * (isi minimal salah satu: Telepon atau Email)</p>
+                <div class="input-group full-width">
+                    <label for="phone">Nomor Telepon</label>
+                    <input type="tel" id="phone" name="phone" placeholder="Nomor Telepon">
+                </div>
+                <div class="input-group full-width">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email"
+                        placeholder="Nomor Telepon atau email yang bisa dihubungi">
+                </div>
+
+                <div class="input-group full-width">
+                    <label for="price">Harga (IDR) *</label>
+                    <input type="number" id="price" name="price" value="500000" required>
+                </div>
+
+                <div class="input-group file-upload-area full-width">
+                    <div class="drop-zone">
+                        <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                        <p>Drop and drop or browse files</p>
+                        <small>Maksimum 500 MB File Size</small>
+                        <input type="file" multiple id="file-upload" style="display: none;">
+                    </div>
+                    <div class="file-preview">
+                        <img src="/public/image/dummy_preview1.jpg" alt="preview1" class="uploaded-img">
+                        <img src="/public/image/dummy_preview2.jpg" alt="preview2" class="uploaded-img">
+                        <img src="/public/image/dummy_preview3.jpg" alt="preview3" class="uploaded-img">
+                    </div>
+                </div>
+
+                <div class="form-actions full-width">
+                    <button type="button" class="btn btn-reset">Reset Formulir</button>
+                    <button type="submit" class="btn btn-submit">Submit Data</button>
+                </div>
+            </form>
+        </section>
+    </main>
+    <footer class="footer">
+        <div class="footer-content">
+            <div>
+                <div class="footer-logo">
+                    <img src="../public/image/2_20251118_083533_0001-removebg-preview 1.png" alt="logo_panggih" />
+                </div>
+                <p class="footer-desc">
+                    We Integrated Smart Tourism solution designed specifically for East
+                    Java. We serve as an Information Control Hub that brings together
+                    data on destinations, MSME products, and local events from various
+                    sources.
+                </p>
+            </div>
+            <div>
+                <div class="footer-title">Explore</div>
+                <div class="footer-links">
+                    <a href="#">Featured Destination</a>
+                    <a href="#">Top Destination</a>
+                    <a href="#">Top Umkm</a>
+                    <a href="#">Event Today</a>
+                </div>
+            </div>
+            <div>
+                <div class="footer-title">Support</div>
+                <div class="footer-links">
+                    <a href="#">Help Centre</a>
+                    <a href="#">FAQs</a>
+                    <a href="#">Contact Us</a>
+                </div>
+            </div>
+            <div>
+                <div class="footer-title">Get In Touch</div>
+                <div class="footer-links">
+                    <a href="#">pangginappe@gmail.com</a>
+                    <a href="#">+62 8950 6037 877</a>
+                </div>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div>
+                <div class="footer-title">Newsletter</div>
+                <div class="newsletter-input">
+                    <input type="email" placeholder="Enter your email" />
+                </div>
+                <button class="subscribe-btn" style="margin-top: 8px">
+                    Subscribe
+                </button>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2025 Panggin - Explore And Go Jatim. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('umkmDashboardForm');
+            const resetButton = document.querySelector('.btn-reset');
+            const openTimeInput = document.getElementById('open-time');
+            const closeTimeInput = document.getElementById('close-time');
+
+            // 1. Simulasi Reset Formulir
+            resetButton.addEventListener('click', () => {
+                if (confirm('Apakah Anda yakin ingin mereset formulir ini?')) {
+                    form.reset();
+                    alert('Formulir berhasil direset.');
+                    // Mengatur ulang nilai default yang diisi sebelumnya (jika ada)
+                    document.getElementById('umkm-name').value = 'Warung Bu Sri';
+                    document.getElementById('latitude').value = '-6.54789';
+                    document.getElementById('longitude').value = '-6.54789';
+                    document.getElementById('price').value = '500000';
+                }
+            });
+
+            // 2. Simulasi Submit Formulir
+            form.addEventListener('submit', (e) => {
+                e.preventDefault(); // Mencegah reload halaman
+
+                // Validasi sederhana
+                const lat = document.getElementById('latitude').value;
+                const openTime = document.getElementById('open-time').value;
+
+                if (!lat || openTime === '---') {
+                    alert('Mohon lengkapi semua field yang bertanda (*).');
+                    return;
+                }
+
+                console.log('Data Formulir Dikirim:', new FormData(form));
+                alert('Data UMKM berhasil dikirim! (Simulasi)');
+                // Di sini Anda akan menambahkan logika AJAX untuk mengirim data ke server
+            });
+
+            // 3. Simulasi Input Jam (Mengubah input text menjadi type="time" saat diklik)
+            const setupTimeInput = (inputElement) => {
+                inputElement.addEventListener('focus', () => {
+                    inputElement.type = 'time';
+                    if (inputElement.value === '---') {
+                        inputElement.value = ''; // Kosongkan placeholder jika perlu
+                    }
+                });
+                inputElement.addEventListener('blur', () => {
+                    if (inputElement.value === '') {
+                        inputElement.type = 'text';
+                        inputElement.value = '---';
+                    }
+                });
+            };
+
+            setupTimeInput(openTimeInput);
+            setupTimeInput(closeTimeInput);
+
+            // 4. Memicu input file saat drop zone diklik
+            document.querySelector('.drop-zone').addEventListener('click', () => {
+                document.getElementById('file-upload').click();
+            });
+
+        });
+    </script>
+</body>
+
+</html>

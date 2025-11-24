@@ -347,6 +347,13 @@ header {
   width: 350px;
 }
 
+.info-item .alamat {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+
 .info-item i {
   color: #1c352d;
 }

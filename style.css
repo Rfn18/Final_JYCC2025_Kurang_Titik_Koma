@@ -315,7 +315,7 @@ header {
   display: flex;
   align-items: center;
   gap: 0.5em;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
   color: #333;
 }
@@ -328,7 +328,7 @@ header {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 1px;
-  background: #e0e0e0;
+  background: #f1f4f9;
   border: 1px solid #ddd;
   border-radius: 20px 20px 0 0;
   overflow: hidden;
@@ -345,11 +345,12 @@ header {
 }
 
 .weekday-header {
-  background: #f1f4f9;
+  background-color: none;
   padding: 15px;
   text-align: center;
   font-size: 18px;
   color: #1c352d;
+  opacity: 1;
 }
 
 .day-cell {
@@ -377,7 +378,7 @@ header {
 }
 
 .day-number {
-  font-size: 16px;
+  font-size: 14px;
   color: #333;
   font-weight: 500;
   margin-bottom: 5px;
@@ -516,10 +517,6 @@ header {
 
 /* Responsive - Mobile */
 @media (max-width: 480px) {
-  body {
-    padding: 10px;
-  }
-
   .calendar-section {
     padding: 16px;
     border-radius: 16px;
@@ -648,7 +645,7 @@ header {
   overflow-y: auto;
 }
 .event-list-title {
-  font-size: clamp(16px, 2.2vw, 20px);
+  font-size: clamp(16px, 2.2vw, 18px);
   font-weight: 500;
   color: #333;
   margin-bottom: 25px;
@@ -693,6 +690,10 @@ header {
   flex: 1;
 }
 .event-name {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
   font-size: clamp(14px, 1.5vw, 16px);
   width: 80%;
   font-weight: 600;
@@ -703,7 +704,7 @@ header {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: clamp(12px, 1.5vw, 16px);
+  font-size: clamp(12px, 1.5vw, 14px);
   color: #1c352d;
   margin-bottom: 4px;
 }
@@ -713,7 +714,7 @@ header {
   flex-shrink: 0;
 }
 .event-price {
-  font-size: clamp(12px, 1.8vw, 16px);
+  font-size: clamp(12px, 1.8vw, 15px);
   color: #1c352d;
   margin-top: 6px;
 }

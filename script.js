@@ -154,7 +154,7 @@ function createEventItem(event) {
             </div>
 
             <div class="event-price">Harga Tiket <strong>${
-              event.harga_tiket == 0 ? toRupiah(event.harga_tiket) : "0"
+              event.harga_tiket == 0 ? toRupiah(event.harga_tiket) : "Rp. 0"
             }</strong></div>
         </div>
     </div>

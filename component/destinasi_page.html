@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard UMKM - Panggih</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<style>
+    /* ========== RESET & BASE ========== */
+    :root {
+        --day-cell-height: calc(50dvh / 5);
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: "Poppins", sans-serif;
+        background-color: #FFFFFF;
+        width: 100%;
+        height: 100vh;
+    }
+
+    header {
+        position: sticky;
+        top: 0;
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        padding: 0 20px;
+        height: 60px;
+        width: 100%;
+        background-color: #fff;
+        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+    }
+
+    .header-logo {
+        height: 60px;
+        display: flex;
+        align-items: center;
+    }
+
+    .header-logo img {
+        max-width: 100px;
+        max-height: 50px;
+        object-fit: contain;
+    }
+
+    .hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        padding: 10px;
+        z-index: 1001;
+    }
+
+    .hamburger span {
+        width: 25px;
+        height: 3px;
+        background-color: #1c352d;
+        border-radius: 3px;
+        transition: all 0.3s;
+    }
+
+    .hamburger.active span:nth-child(1) {
+        transform: rotate(45deg) translate(6px, 6px);
+    }
+
+    .hamburger.active span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(6px, -6px);
+    }
+
+    .container-text-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .container-text-header a {
+        font-size: 14px;
+        font-weight: 500;
+        color: #1c352d;
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+
+    .container-text-header a:hover {
+        color: #fefa17;
+    }
+
+    .container-tools-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .language-selector {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        cursor: pointer;
+    }
+
+    .language-selector p {
+        font-size: 14px;
+        color: #333;
+    }
+
+    .lang-icon,
+    .arrow-icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .light_and_dark {
+        display: flex;
+        align-items: center;
+        background-color: #f2f4f6;
+        padding: 10px 14px;
+        border-radius: 24px;
+        cursor: pointer;
+    }
+
+    .light_and_dark .light-mode {
+        width: 20px;
+        height: 20px;
+    }
+
+    .auth {
+        display: flex;
+        gap: 8px;
+    }
+
+    .auth .btn-login,
+    .auth .btn-signup {
+        font-size: 14px;
+        font-weight: 600;
+        padding: 10px 16px;
+        border-radius: 20px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .auth .btn-login {
+        color: #1c352d;
+        background-color: #fff;
+        border: 1px solid #ddd;
+    }
+
+    .auth .btn-login:hover {
+        background-color: #f5f5f5;
+    }
+
+    .auth .btn-signup {
+        background-color: #fefa17;
+        color: #1c352d;
+    }
+
+    .auth .btn-signup:hover {
+        background-color: #e6e215;
+    }
+
+    @media (max-width: 992px) {
+        .container-text-header {
+            gap: 20px;
+        }
+
+        .container-text-header a {
+            font-size: 13px;
+        }
+
+        .auth .btn-login,
+        .auth .btn-signup {
+            padding: 8px 12px;
+            font-size: 13px;
+        }
+    }
+
+    /* Mobile - 768px */
+    @media (max-width: 768px) {
+        header {
+            grid-template-columns: auto 1fr auto;
+            padding: 0 15px;
+        }
+
+        .hamburger {
+            display: flex;
+            justify-self: end;
+        }
+
+        .container-text-header {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            right: 0;
+            flex-direction: column;
+            background-color: #fff;
+            padding: 20px;
+            gap: 0;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            transform: translateY(-150%);
+            transition: transform 0.3s ease;
+            z-index: 999;
+        }
+
+        .container-text-header.active {
+            transform: translateY(0);
+        }
+
+        .container-text-header a {
+            padding: 15px 0;
+            width: 100%;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+            font-size: 16px;
+        }
+
+        .container-text-header a:last-child {
+            border-bottom: none;
+        }
+
+        .container-tools-header {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            right: 0;
+            flex-direction: column;
+            background-color: #fff;
+            padding: 20px;
+            gap: 15px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            transform: translateY(-250%);
+            transition: transform 0.3s ease;
+            z-index: 998;
+        }
+
+        .container-tools-header.active {
+            transform: translateY(calc(100% + 80px));
+        }
+
+        .auth {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .auth .btn-login,
+        .auth .btn-signup {
+            flex: 1;
+            text-align: center;
+        }
+
+        .light_and_dark {
+            margin-top: 1em;
+        }
+    }
+
+    .container {
+        display: grid;
+        grid-template-columns: 1fr 400px;
+        gap: 20px;
+        margin: 20px;
+    }
+
+    .main-container {
+        padding: 20px 50px;
+        max-width: 1400px;
+        /* Batasi lebar agar seperti di gambar */
+        margin: 0 auto;
+    }
+
+    .page-title {
+        font-size: 32px;
+        font-weight: 600;
+        margin-bottom: 30px;
+    }
+
+    .content-wrapper {
+        display: flex;
+        gap: 30px;
+    }
+
+    /* ========================== SIDEBAR STYLES ============================ */
+    .sidebar {
+        width: 250px;
+        flex-shrink: 0;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        height: fit-content;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .category-section {
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .category-section h3 {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 15px;
+    }
+
+    .category-section h4 {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: #004c8c;
+        /* Biru sidebar */
+    }
+
+    .category-section ul {
+        list-style: none;
+    }
+
+    .category-section li {
+        font-size: 14px;
+        padding: 5px 0;
+        cursor: pointer;
+        color: #666;
+    }
+
+    .category-section li.active-filter {
+        font-weight: 600;
+        color: #004c8c;
+    }
+
+    /* ====================== MAIN CONTENT STYLES ========================= */
+    .destination-content {
+        flex-grow: 1;
+    }
+
+    /* Search Bar */
+    .search-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        background-color: #fff;
+        padding: 10px 10px 10px 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .search-bar input {
+        flex-grow: 1;
+        border: none;
+        outline: none;
+        font-size: 16px;
+        padding: 8px;
+    }
+
+    .cart-button {
+        background-color: #ffcc00;
+        /* Kuning */
+        color: #333;
+        border: none;
+        padding: 10px 25px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: 600;
+        margin-left: 10px;
+    }
+
+    /* Card Grid */
+    .card-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        /* 3 kolom */
+        gap: 20px;
+    }
+
+    /* Card Item */
+    .destination-card {
+        background-color: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s;
+    }
+
+    .destination-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .card-header {
+        position: relative;
+        height: 180px;
+        /* Tinggi gambar */
+    }
+
+    .card-header img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .save-icon {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        padding: 5px 8px;
+        border-radius: 50%;
+        font-size: 18px;
+        cursor: pointer;
+    }
+
+    .rating {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    .rating small {
+        font-weight: 400;
+        color: #666;
+    }
+
+    .card-body {
+        padding: 15px;
+    }
+
+    .card-title {
+        font-size: 18px;
+        font-weight: 600;
+        line-height: 1.2;
+        margin-bottom: 5px;
+    }
+
+    .card-location {
+        font-size: 14px;
+        color: #999;
+        margin-bottom: 15px;
+    }
+
+    .card-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .price {
+        font-size: 20px;
+        font-weight: 700;
+        color: #004c8c;
+    }
+
+    .price small {
+        font-size: 14px;
+        font-weight: 400;
+        color: #666;
+    }
+
+    .btn-provide {
+        background-color: #004c8c;
+        /* Biru */
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: background-color 0.2s;
+    }
+
+    .btn-provide:hover {
+        background-color: #003366;
+    }
+
+    /* Pagination */
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 30px;
+        padding-bottom: 20px;
+    }
+
+    .page-number {
+        display: inline-block;
+        width: 35px;
+        height: 35px;
+        line-height: 35px;
+        text-align: center;
+        border-radius: 50%;
+        margin: 0 5px;
+        cursor: pointer;
+        font-weight: 500;
+        color: #666;
+    }
+
+    .page-number.active {
+        background-color: #ffcc00;
+        /* Kuning */
+        color: #333;
+    }
+
+
+    .footer {
+        background: #1c352d;
+        color: #fff;
+        padding: 40px;
+        margin-top: 40px;
+    }
+
+    .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1.5fr 1fr 1fr 1fr 1.2fr;
+        gap: 40px;
+    }
+
+    .footer-logo {
+        display: flex;
+        align-items: start;
+    }
+
+    .footer-logo img {
+        position: absolute;
+        left: 45px;
+        width: 100px;
+    }
+
+    .footer-desc {
+        font-size: 12px;
+        color: #ffff;
+        line-height: 1.6;
+        padding-top: 3.5em;
+    }
+
+    .footer-title {
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 16px;
+        color: #ffc700;
+    }
+
+    .footer-links {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .footer-links a {
+        color: #fff;
+        opacity: 0.8;
+        text-decoration: none;
+        font-size: 13px;
+    }
+
+    .footer-links a:hover {
+        color: #fff;
+    }
+
+    .social-links {
+        display: flex;
+        gap: 12px;
+        margin-top: 8px;
+    }
+
+    .social-links a {
+        color: #94a3b8;
+        font-size: 18px;
+    }
+
+    .newsletter-input {
+        display: flex;
+        gap: 8px;
+        margin-top: 8px;
+    }
+
+    .newsletter-input input {
+        flex: 1;
+        padding: 14px 16px;
+        border: 1px solid #ddd;
+        border-radius: 20px;
+        background: #1c352d;
+        color: #fff;
+        font-size: 13px;
+        -webkit-border-radius: 20px;
+        -moz-border-radius: 20px;
+        -ms-border-radius: 20px;
+        -o-border-radius: 20px;
+    }
+
+    .newsletter-input input:focus {
+        outline: none;
+    }
+
+    .subscribe-btn {
+        background: #e6e215;
+        color: #1c352d;
+        border: none;
+        padding: 10px 16px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 13px;
+        -webkit-border-radius: 20px;
+        -moz-border-radius: 20px;
+        -ms-border-radius: 20px;
+        -o-border-radius: 20px;
+    }
+
+    .footer-bottom {
+        text-align: center;
+        padding-top: 30px;
+        margin-top: 30px;
+        border-top: 1px solid #334155;
+        font-size: 12px;
+        color: #fff;
+    }
+</style>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Destination Page</title>
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <header>
+        <div class="header-logo">
+            <img src="/public/image/2_20251118_083533_0001-removebg-preview 1.png" alt="logo_panggih"
+                class="header-logo" />
+        </div>
+        <div class="container-text-header">
+            <a href="./destinasi.html       " class="header-text">Home</a>
+            <a href="#" class="header-text">Destination</a>
+            <a href="./dashboard_umkm.html" class="header-text">Umkm</a>
+            <a href="../index.html" class="header-text">Calendar</a>
+            <a href="#" class="header-text">Contact</a>
+        </div>
+        <div class="container-tools-header">
+            <div class="language-selector">
+                <img src="/public/image/lang.svg.png" alt="lang" class="lang-icon" />
+                <p class="language-name">ID</p>
+                <img src="/public/image/arrow-down-sm.svg.png" alt="arrow-down" class="arrow-icon" />
+            </div>
+            <div class="light_and_dark">
+                <img src="/public/image/light.svg.png" alt="light-mode-icon" class="light-mode" />
+            </div>
+            <div class="auth">
+                <button class="btn-login">Login</button>
+                <button class="btn-signup">Sign Up</button>
+            </div>
+        </div>
+        <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
+    <div class="main-container">
+
+        <h2 class="page-title">Destination Page</h2>
+
+        <div class="content-wrapper">
+
+            <!-- SIDE BAR -->
+            <aside class="sidebar">
+                <div class="category-section">
+                    <h3>Category</h3>
+                </div>
+
+                <div class="category-section">
+                    <h4>Destination Type</h4>
+                    <ul>
+                        <li class="active-filter">Gunung</li>
+                        <li>Pantai</li>
+                        <li>Taman</li>
+                        <li>Air Terjun</li>
+                    </ul>
+                </div>
+
+                <div class="category-section">
+                    <h4>Place Status</h4>
+                    <ul>
+                        <li class="active-filter">Aktif</li>
+                        <li>Non-Aktif</li>
+                    </ul>
+                </div>
+
+                <div class="category-section">
+                    <h4>Based on Jatim</h4>
+                    <ul>
+                        <li>Malang</li>
+                        <li>Kediri</li>
+                        <li>Probolinggo</li>
+                        <li>Surabaya</li>
+                        <li>Lumajang</li>
+                    </ul>
+                </div>
+            </aside>
+
+
+            <!-- MAIN DESTINATION CONTENT -->
+            <main class="destination-content">
+
+                <div class="search-bar">
+                    <input type="text" placeholder="Cari Destinasi di Sini">
+                    <button class="cart-button">Cart</button>
+                </div>
+
+
+                <div class="card-grid">
+
+                    <div class="destination-card">
+                        <div class="card-header">
+                            <img src="../public/image/gunung.png" alt="Gunung Kelud">
+                            <span class="rating">⭐️ 4.96 <small>(672 reviews)</small></span>
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title">Gunung Kelud <br> Kabupaten Kediri</h4>
+                            <p class="card-location">📍 Kab. Kediri, E. Java, Ind.</p>
+                            <div class="card-footer">
+                                <span class="price">Rp. 30.000 <small>/person</small></span>
+                                <button class="btn-provide">Provide</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="destination-card">
+                        <div class="card-header">
+                            <img src="../public/image/pantai-tiga-warna.png" alt="Pantai Tiga Warna">
+
+                            <span class="rating">⭐️ 4.96 <small>(672 reviews)</small></span>
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title">Pantai Tiga Warna <br> Kab. Malang</h4>
+                            <p class="card-location">📍 Kab. Malang, E. Java, Ind.</p>
+                            <div class="card-footer">
+                                <span class="price">Rp. 30.000 <small>/person</small></span>
+                                <button class="btn-provide">Provide</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="destination-card">
+                        <div class="card-header">
+                            <img src="../public/image/Batu-love-garden.png" alt="Batu Love Garden">
+
+                            <span class="rating">⭐️ 4.96 <small>(672 reviews)</small></span>
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title">Batu Love Garden <br> Malang</h4>
+                            <p class="card-location">📍 Batu, E. Java, Ind.</p>
+                            <div class="card-footer">
+                                <span class="price">Rp. 15.000 <small>/person</small></span>
+                                <button class="btn-provide">Provide</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="destination-card">
+                        <div class="card-header">
+                            <img src="../public/image/Air Terjun.png" alt="Air">
+                            <span class="rating">⭐️ 4.96 <small>(672 reviews)</small></span>
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title">Air Terjun Tumpak Sewu <br> Lumajang</h4>
+                            <p class="card-location">📍 Lumajang, E. Java, Ind.</p>
+                            <div class="card-footer">
+                                <span class="price">Rp. 30.000 <small>/person</small></span>
+                                <button class="btn-provide">Provide</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination">
+                    <span class="page-number active">1</span>
+                    <span class="page-number">2</span>
+                    <span class="page-number">3</span>
+                    <span>...</span>
+                    <span class="page-number">30</span>
+                </div>
+
+            </main>
+
+        </div>
+    </div>
+
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div>
+                <div class="footer-logo">
+                    <img src="../public/image/2_20251118_083533_0001-removebg-preview 1.png" alt="logo_panggih" />
+                </div>
+                <p class="footer-desc">
+                    We Integrated Smart Tourism solution designed specifically for East
+                    Java. We serve as an Information Control Hub that brings together
+                    data on destinations, MSME products, and local events from various
+                    sources.
+                </p>
+            </div>
+            <div>
+                <div class="footer-title">Explore</div>
+                <div class="footer-links">
+                    <a href="#">Featured Destination</a>
+                    <a href="#">Top Destination</a>
+                    <a href="#">Top Umkm</a>
+                    <a href="#">Event Today</a>
+                </div>
+            </div>
+            <div>
+                <div class="footer-title">Support</div>
+                <div class="footer-links">
+                    <a href="#">Help Centre</a>
+                    <a href="#">FAQs</a>
+                    <a href="#">Contact Us</a>
+                </div>
+            </div>
+            <div>
+                <div class="footer-title">Get In Touch</div>
+                <div class="footer-links">
+                    <a href="#">pangginappe@gmail.com</a>
+                    <a href="#">+62 8950 6037 877</a>
+                </div>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div>
+                <div class="footer-title">Newsletter</div>
+                <div class="newsletter-input">
+                    <input type="email" placeholder="Enter your email" />
+                </div>
+                <button class="subscribe-btn" style="margin-top: 8px">
+                    Subscribe
+                </button>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2025 Panggin - Explore And Go Jatim. All rights reserved.
+        </div>
+    </footer>
+</body>
+<script>
+
+    function toggleMenu() {
+        const hamburger = document.getElementById("hamburger");
+        const navMenu = document.getElementById("nav-menu");
+        const toolsMenu = document.getElementById("tools-menu");
+
+        hamburger.classList.toggle("active");
+        navMenu.classList.toggle("active");
+        toolsMenu.classList.toggle("active");
+    }
+
+    const API_BASE_URL = "http://localhost:3000";
+
+    async function getDestinasi() {
+        const response = await fetch(`${API_BASE_URL}/api/destinasi/$`);
+        if (!response.ok)
+            throw new Error(`Destinasi tidak ditemukan`);
+        return response.json();
+    }
+
+    function renderEventCards(events) {
+        const wrapper = document.querySelector(".card-wrapper");
+        if (!wrapper) return;
+
+        wrapper.innerHTML = "";
+
+        if (!events || events.length === 0) {
+            wrapper.innerHTML = `<div class="event-desc">Belum ada event di sekitar destinasi.</div>`;
+            return;
+        }
+
+        events.forEach((event, index) => {
+            const card = `
+                    <div class="destination-card" id="card-items">
+                        <div class="card-header">
+                            <img src="${event.image}">
+
+                            <span class="rating">⭐️ 4.96 <small>(672 reviews)</small></span>
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title"${events.nama_destinasi}</h4>
+                            <p class="card-location">${events.alamat}</p>
+                            <div class="card-footer">
+                                <span class="price">${events.harga}<small>/person</small></span>
+                                <button class="btn-provide">Provide</button>
+                            </div>
+                        </div>
+                    </div>
+                 `;
+
+            wrapper.insertAdjacentHTML("beforeend", card);
+        });
+    }
+
+</script>
+
+</html>

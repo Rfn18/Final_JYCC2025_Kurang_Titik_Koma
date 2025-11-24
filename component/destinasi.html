@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beranda Destinasi - Panggih</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* Variabel Warna Disesuaikan */
+        :root {
+            --primary-blue: #5352ed;
+            --primary-orange: #ff9f1c;
+            /* Warna tombol/highlight pada footer */
+            --primary-green: #1c352d;
+            /* Warna utama Footer dan teks gelap */
+            --bg-light: #fff;
+            --bg-gray-light: #f8f8f8;
+            --text-dark: #333;
+            --text-medium: #6c757d;
+            --text-light: #fff;
+            --card-radius-large: 15px;
+            --card-radius-small: 8px;
+            --hero-overlay-color: rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            padding: 0 20px;
+            height: 60px;
+            width: 100%;
+            background-color: #fff;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .header-logo {
+            height: 60px;
+            display: flex;
+            align-items: center;
+        }
+
+        .header-logo img {
+            max-width: 100px;
+            max-height: 50px;
+            object-fit: contain;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 10px;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background-color: #1c352d;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+
+        .container-text-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .container-text-header a {
+            font-size: 14px;
+            font-weight: 500;
+            color: #1c352d;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .container-text-header a:hover {
+            color: #fefa17;
+        }
+
+        .container-tools-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .language-selector {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            cursor: pointer;
+        }
+
+        .language-selector p {
+            font-size: 14px;
+            color: #333;
+        }
+
+        .lang-icon,
+        .arrow-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        .light_and_dark {
+            display: flex;
+            align-items: center;
+            background-color: #f2f4f6;
+            padding: 10px 14px;
+            border-radius: 24px;
+            cursor: pointer;
+        }
+
+        .light_and_dark .light-mode {
+            width: 20px;
+            height: 20px;
+        }
+
+        .auth {
+            display: flex;
+            gap: 8px;
+        }
+
+        .auth .btn-login,
+        .auth .btn-signup {
+            font-size: 14px;
+            font-weight: 600;
+            padding: 10px 16px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .auth .btn-login {
+            color: #1c352d;
+            background-color: #fff;
+            border: 1px solid #ddd;
+        }
+
+        .auth .btn-login:hover {
+            background-color: #f5f5f5;
+        }
+
+        .auth .btn-signup {
+            background-color: #fefa17;
+            color: #1c352d;
+        }
+
+        .auth .btn-signup:hover {
+            background-color: #e6e215;
+        }
+
+        @media (max-width: 992px) {
+            .container-text-header {
+                gap: 20px;
+            }
+
+            .container-text-header a {
+                font-size: 13px;
+            }
+
+            .auth .btn-login,
+            .auth .btn-signup {
+                padding: 8px 12px;
+                font-size: 13px;
+            }
+        }
+
+        /* Mobile - 768px */
+        @media (max-width: 768px) {
+            header {
+                grid-template-columns: auto 1fr auto;
+                padding: 0 15px;
+            }
+
+            .hamburger {
+                display: flex;
+                justify-self: end;
+            }
+
+            .container-text-header {
+                position: fixed;
+                top: 60px;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                background-color: #fff;
+                padding: 20px;
+                gap: 0;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+                transform: translateY(-150%);
+                transition: transform 0.3s ease;
+                z-index: 999;
+            }
+
+            .container-text-header.active {
+                transform: translateY(0);
+            }
+
+            .container-text-header a {
+                padding: 15px 0;
+                width: 100%;
+                text-align: center;
+                border-bottom: 1px solid #eee;
+                font-size: 16px;
+            }
+
+            .container-text-header a:last-child {
+                border-bottom: none;
+            }
+
+            .container-tools-header {
+                position: fixed;
+                top: 60px;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                background-color: #fff;
+                padding: 20px;
+                gap: 15px;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+                transform: translateY(-250%);
+                transition: transform 0.3s ease;
+                z-index: 998;
+            }
+
+            .container-tools-header.active {
+                transform: translateY(calc(100% + 80px));
+            }
+
+            .auth {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .auth .btn-login,
+            .auth .btn-signup {
+                flex: 1;
+                text-align: center;
+            }
+
+            .light_and_dark {
+                margin-top: 1em;
+            }
+        }
+
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.2s;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .section-title {
+            font-size: 2em;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--primary-green);
+        }
+
+        /* ================================================= */
+        /* --- HEADER / NAVBAR STYLING --- */
+        /* ================================================= */
+        .homepage-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+            height: 60px;
+            background-color: var(--bg-light);
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-logo .logo-img {
+            max-height: 40px;
+            object-fit: contain;
+        }
+
+        .main-nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        .main-nav a {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-medium);
+            padding: 5px 0;
+            border-bottom: 2px solid transparent;
+        }
+
+        .main-nav a:hover,
+        .main-nav a.active-nav {
+            color: var(--primary-blue);
+            border-color: var(--primary-blue);
+        }
+
+        .user-tools {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .language-selector,
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .profile-icon {
+            font-size: 20px;
+            color: var(--primary-blue);
+        }
+
+        /* ================================================= */
+        /* --- 1. HERO SECTION --- */
+        /* ================================================= */
+        .hero-section {
+            position: relative;
+            height: 400px;
+            /* Tinggi disesuaikan */
+            overflow: hidden;
+            margin-bottom: 50px;
+        }
+
+        .hero-content {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero-bg-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.8);
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--hero-overlay-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .hero-overlay h1 {
+            font-size: 2.5em;
+            color: var(--text-light);
+            font-weight: 700;
+            margin-bottom: 25px;
+        }
+
+        .search-box {
+            display: flex;
+            width: 100%;
+            max-width: 500px;
+            background-color: var(--bg-light);
+            border-radius: 50px;
+            padding: 5px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-box input {
+            flex-grow: 1;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 1em;
+            color: var(--text-dark);
+        }
+
+        .search-box input:focus {
+            outline: none;
+        }
+
+        .btn-search {
+            background-color: var(--primary-blue);
+            color: var(--text-light);
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1em;
+        }
+
+        /* ================================================= */
+        /* --- 2. FEATURED DESTINATION --- */
+        /* ================================================= */
+        .featured-destination {
+            padding: 50px 20px;
+        }
+
+        .destination-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 25px;
+        }
+
+        .dest-card {
+            background-color: var(--bg-light);
+            border-radius: var(--card-radius-large);
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        .dest-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 10px 15px 15px;
+        }
+
+        .card-category {
+            font-size: 0.75em;
+            color: var(--text-medium);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .card-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 5px;
+        }
+
+        .card-price {
+            font-size: 0.9em;
+            font-weight: 500;
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+        }
+
+        .card-tags {
+            display: flex;
+            gap: 5px;
+        }
+
+        .tag {
+            font-size: 0.7em;
+            background-color: #e0f7fa;
+            color: #00bcd4;
+            padding: 3px 8px;
+            border-radius: 15px;
+        }
+
+        .load-more-btn-container {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .btn-load-more {
+            background-color: transparent;
+            border: 1px solid var(--primary-blue);
+            color: var(--primary-blue);
+        }
+
+        /* ================================================= */
+        /* --- 3. HOW IT WORKS SECTION --- */
+        /* ================================================= */
+        .how-it-works {
+            background-color: var(--bg-gray-light);
+            padding: 50px 0 80px;
+            position: relative;
+        }
+
+        .works-layout {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .works-image-column {
+            flex: 1;
+            position: relative;
+            min-height: 400px;
+        }
+
+        .works-img {
+            position: absolute;
+            border-radius: var(--card-radius-large);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            object-fit: cover;
+        }
+
+        .works-img.top-left {
+            width: 55%;
+            height: 200px;
+            top: 0;
+            left: 0;
+            z-index: 2;
+        }
+
+        .works-img.bottom-left {
+            width: 45%;
+            height: 150px;
+            bottom: 0;
+            left: 10%;
+            z-index: 3;
+        }
+
+        .works-img.bottom-right {
+            width: 40%;
+            height: 180px;
+            bottom: 20px;
+            right: 0;
+            z-index: 1;
+        }
+
+        .works-steps-column {
+            flex: 1.2;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+        }
+
+        .works-steps-column::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: #ccc;
+            /* Garis vertikal penghubung */
+            z-index: 0;
+        }
+
+        .step-card {
+            background-color: var(--bg-light);
+            padding: 20px;
+            border-radius: var(--card-radius-large);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-card h3 {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: var(--primary-blue);
+        }
+
+        .step-icon-circle {
+            width: 40px;
+            height: 40px;
+            min-width: 40px;
+            background-color: var(--primary-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            font-size: 1.1em;
+            box-shadow: 0 0 0 5px var(--bg-gray-light);
+            /* Cincin luar */
+        }
+
+        /* Penyesuaian warna langkah untuk kemiripan */
+        .step-1 .step-icon-circle {
+            background-color: #ffb703;
+            /* Kuning */
+        }
+
+        .step-2 .step-icon-circle {
+            background-color: #219ebc;
+            /* Biru muda */
+        }
+
+        .step-3 .step-icon-circle {
+            background-color: #fb8500;
+            /* Oranye */
+        }
+
+        /* ================================================= */
+        /* --- 4. TOP DESTINATION --- */
+        /* ================================================= */
+        .top-destination {
+            padding: 50px 20px;
+        }
+
+        .top-dest-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 25px;
+        }
+
+        .dest-large-card {
+            position: relative;
+            height: 450px;
+            border-radius: var(--card-radius-large);
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .large-card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .large-card-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0));
+            color: var(--text-light);
+        }
+
+        .large-card-title {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .large-card-subtitle {
+            font-size: 1em;
+        }
+
+        .dest-small-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .small-card {
+            display: flex;
+            gap: 15px;
+            padding: 15px;
+            background-color: var(--bg-light);
+            border-radius: var(--card-radius-small);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: box-shadow 0.2s;
+        }
+
+        .small-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .small-card-img {
+            width: 80px;
+            height: 80px;
+            min-width: 80px;
+            object-fit: cover;
+            border-radius: var(--card-radius-small);
+        }
+
+        .small-card-content {
+            line-height: 1.3;
+        }
+
+        .small-card-category {
+            font-size: 1em;
+            font-weight: 600;
+            color: var(--text-dark);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .small-card-desc {
+            font-size: 0.85em;
+            color: var(--text-medium);
+        }
+
+        /* ================================================= */
+        /* --- 5. EVENT LIST TODAY --- */
+        /* ================================================= */
+        .event-list {
+            padding: 50px 20px;
+            background-color: var(--bg-gray-light);
+            /* Background section abu-abu */
+        }
+
+        .event-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .event-card {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: var(--bg-light);
+            border-radius: var(--card-radius-small);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .event-icon {
+            font-size: 1.5em;
+            color: var(--primary-blue);
+            margin-right: 15px;
+        }
+
+        .event-info {
+            flex-grow: 1;
+        }
+
+        .event-info h3 {
+            font-size: 1em;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .event-info p {
+            font-size: 0.85em;
+            color: var(--text-medium);
+        }
+
+        .btn-detail {
+            background-color: var(--primary-blue);
+            color: var(--text-light);
+            padding: 8px 15px;
+        }
+
+        /* ================================================= */
+        /* --- FOOTER --- */
+        /* ================================================= */
+        detail_pages/destination.css
+        /* ================================================= */
+        /* --- MEDIA QUERIES --- */
+        /* ================================================= */
+        @media (max-width: 992px) {
+            .top-dest-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dest-large-card {
+                height: 350px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .works-layout {
+                flex-direction: column;
+            }
+
+            .works-image-column {
+                min-height: 300px;
+                width: 100%;
+            }
+
+            .works-steps-column {
+                width: 100%;
+                padding-left: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-nav {
+                display: none;
+            }
+
+            .hero-overlay h1 {
+                font-size: 2em;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-about,
+            .footer-links,
+            .footer-contact {
+                text-align: center;
+            }
+
+            .social-icons {
+                text-align: center;
+            }
+
+            .footer-contact p {
+                text-align: center;
+            }
+
+            .btn-contact-us {
+                display: block;
+                width: 100%;
+                margin-top: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="header-logo">
+            <img src="/public/image/2_20251118_083533_0001-removebg-preview 1.png" alt="logo_panggih"
+                class="header-logo" />
+        </div>
+        <div class="container-text-header">
+            <a href="#" class="header-text">Home</a>
+            <a href="./destinasi_page.html" class="header-text">Destination</a>
+            <a href="./dashboard_umkm.html" class="header-text">Umkm</a>
+            <a href="../index.html" class="header-text">Calendar</a>
+            <a href="#" class="header-text">Contact</a>
+        </div>
+        <div class="container-tools-header">
+            <div class="language-selector">
+                <img src="/public/image/lang.svg.png" alt="lang" class="lang-icon" />
+                <p class="language-name">ID</p>
+                <img src="/public/image/arrow-down-sm.svg.png" alt="arrow-down" class="arrow-icon" />
+            </div>
+            <div class="light_and_dark">
+                <img src="/public/image/light.svg.png" alt="light-mode-icon" class="light-mode" />
+            </div>
+            <div class="auth">
+                <button class="btn-login">Login</button>
+                <button class="btn-signup">Sign Up</button>
+            </div>
+        </div>
+        <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
+    <main>
+
+        <section class="hero-section">
+            <div class="hero-content">
+                <img src="/public/image/hero_image_dummy.jpg" alt="Hero Background" class="hero-bg-img">
+                <div class="hero-overlay">
+                    <h1>Mau Jelajah Wisata Jawa Timur?</h1>
+                    <div class="search-box">
+                        <input type="text" placeholder="Cari Destinasi, Event, atau UMKM">
+                        <button class="btn btn-search"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="featured-destination container">
+            <h2 class="section-title">Featured Destination</h2>
+
+            <div class="destination-grid">
+                <div class="dest-card">
+                    <img src="/public/image/dest1.jpg" alt="Gunung Kelud" class="card-img">
+                    <div class="card-body">
+                        <span class="card-category">Wisata Alam</span>
+                        <h3 class="card-title">Gunung Kelud</h3>
+                        <p class="card-price">Rp. 15.000 / Org</p>
+                        <div class="card-tags">
+                            <span class="tag">Alam</span>
+                            <span class="tag">Kediri</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="dest-card">
+                    <img src="/public/image/dest2.jpg" alt="Pantai Tiga Warna" class="card-img">
+                    <div class="card-body">
+                        <span class="card-category">Wisata Pantai</span>
+                        <h3 class="card-title">Pantai Tiga Warna</h3>
+                        <p class="card-price">Rp. 30.000 / Org</p>
+                        <div class="card-tags">
+                            <span class="tag">Pantai</span>
+                            <span class="tag">Malang</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="dest-card">
+                    <img src="/public/image/dest3.jpg" alt="Kawah Ijen" class="card-img">
+                    <div class="card-body">
+                        <span class="card-category">Wisata Alam</span>
+                        <h3 class="card-title">Kawah Ijen</h3>
+                        <p class="card-price">Rp. 10.000 / Org</p>
+                        <div class="card-tags">
+                            <span class="tag">Alam</span>
+                            <span class="tag">Banyuwangi</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="dest-card">
+                    <img src="/public/image/dest4.jpg" alt="Air Terjun Tumpak Sewu" class="card-img">
+                    <div class="card-body">
+                        <span class="card-category">Wisata Alam</span>
+                        <h3 class="card-title">Air Terjun Tumpak Sewu</h3>
+                        <p class="card-price">Rp. 10.000 / Org</p>
+                        <div class="card-tags">
+                            <span class="tag">Alam</span>
+                            <span class="tag">Lumajang</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="dest-card">
+                    <img src="/public/image/dest5.jpg" alt="Jatim Park" class="card-img">
+                    <div class="card-body">
+                        <span class="card-category">Wisata Keluarga</span>
+                        <h3 class="card-title">Jatim Park 3</h3>
+                        <p class="card-price">Rp. 100.000 / Org</p>
+                        <div class="card-tags">
+                            <span class="tag">Wahana</span>
+                            <span class="tag">Batu</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="dest-card">
+                    <img src="/public/image/dest6.jpg" alt="Gili Ketapang" class="card-img">
+                    <div class="card-body">
+                        <span class="card-category">Wisata Pantai</span>
+                        <h3 class="card-title">Gili Ketapang</h3>
+                        <p class="card-price">Rp. 15.000 / Org</p>
+                        <div class="card-tags">
+                            <span class="tag">Pantai</span>
+                            <span class="tag">Probolinggo</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="load-more-btn-container">
+                <button class="btn btn-load-more">Lihat Destinasi Lain</button>
+            </div>
+        </section>
+
+        <section class="how-it-works">
+            <h2 class="section-title">How It Works?</h2>
+
+            <div class="works-layout container">
+                <div class="works-image-column">
+                    <img src="/public/image/works_people1.jpg" alt="People having fun" class="works-img top-left">
+                    <img src="/public/image/works_people2.jpg" alt="Family having fun" class="works-img bottom-left">
+                    <img src="/public/image/works_people3.jpg" alt="Man relaxing" class="works-img bottom-right">
+                </div>
+
+                <div class="works-steps-column">
+                    <div class="step-card step-1">
+                        <div class="step-icon-circle">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="step-content">
+                            <h3>Find Your Destination</h3>
+                            <p>Cari destinasi, UMKM, atau event yang kamu inginkan di Jawa Timur.</p>
+                        </div>
+                    </div>
+                    <div class="step-card step-2">
+                        <div class="step-icon-circle">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="step-content">
+                            <h3>Plan Your Trip</h3>
+                            <p>Tentukan tanggal dan rencana perjalanan kamu dengan kalender yang tersedia.</p>
+                        </div>
+                    </div>
+                    <div class="step-card step-3">
+                        <div class="step-icon-circle">
+                            <i class="fas fa-ticket-alt"></i>
+                        </div>
+                        <div class="step-content">
+                            <h3>Book & Go!</h3>
+                            <p>Dapatkan tiket dan nikmati perjalanan wisatamu di Jawa Timur!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="top-destination container">
+            <h2 class="section-title">Top Destination</h2>
+
+            <div class="top-dest-grid">
+                <div class="dest-large-card">
+                    <img src="/public/image/bromo_large.jpg" alt="Gunung Bromo" class="large-card-img">
+                    <div class="large-card-overlay">
+                        <h3 class="large-card-title">Gunung Bromo</h3>
+                        <p class="large-card-subtitle">Sunrise terindah di Jawa Timur</p>
+                    </div>
+                </div>
+
+                <div class="dest-small-cards">
+                    <div class="small-card">
+                        <img src="/public/image/jeep.jpg" alt="Bromo Jeep Tour" class="small-card-img">
+                        <div class="small-card-content">
+                            <span class="small-card-category">Bromo Jeep Tour</span>
+                            <p class="small-card-desc">Paket wisata jeep offroad ke Bromo dan sekitarnya melalui...</p>
+                        </div>
+                    </div>
+                    <div class="small-card">
+                        <img src="/public/image/ijen.jpg" alt="Kawah Ijen Blue Fire" class="small-card-img">
+                        <div class="small-card-content">
+                            <span class="small-card-category">Kawah Ijen Blue Fire</span>
+                            <p class="small-card-desc">Paket hiking ke Kawah Ijen untuk melihat fenomena blue fire.</p>
+                        </div>
+                    </div>
+                    <div class="small-card">
+                        <img src="/public/image/sewu.jpg" alt="Tumpak Sewu" class="small-card-img">
+                        <div class="small-card-content">
+                            <span class="small-card-category">Air Terjun Tumpak Sewu</span>
+                            <p class="small-card-desc">Air terjun megah di Lumajang yang dikelilingi oleh tebing-tebing.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="event-list container">
+            <h2 class="section-title">Event List Today</h2>
+
+            <div class="event-grid">
+                <div class="event-card">
+                    <i class="fas fa-calendar-alt event-icon"></i>
+                    <div class="event-info">
+                        <h3>Event Today</h3>
+                        <p>Event berlangsung di Malang</p>
+                    </div>
+                    <button class="btn btn-detail">Detail</button>
+                </div>
+                <div class="event-card">
+                    <i class="fas fa-calendar-alt event-icon"></i>
+                    <div class="event-info">
+                        <h3>Event Today</h3>
+                        <p>Event berlangsung di Surabaya</p>
+                    </div>
+                    <button class="btn btn-detail">Detail</button>
+                </div>
+                <div class="event-card">
+                    <i class="fas fa-calendar-alt event-icon"></i>
+                    <div class="event-info">
+                        <h3>Event Today</h3>
+                        <p>Event berlangsung di Kediri</p>
+                    </div>
+                    <button class="btn btn-detail">Detail</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div>
+                <div class="footer-logo">
+                    <img src="../public/image/2_20251118_083533_0001-removebg-preview 1.png" alt="logo_panggih" />
+                </div>
+                <p class="footer-desc">
+                    We Integrated Smart Tourism solution designed specifically for East
+                    Java. We serve as an Information Control Hub that brings together
+                    data on destinations, MSME products, and local events from various
+                    sources.
+                </p>
+            </div>
+            <div>
+                <div class="footer-title">Explore</div>
+                <div class="footer-links">
+                    <a href="#">Featured Destination</a>
+                    <a href="#">Top Destination</a>
+                    <a href="#">Top Umkm</a>
+                    <a href="#">Event Today</a>
+                </div>
+            </div>
+            <div>
+                <div class="footer-title">Support</div>
+                <div class="footer-links">
+                    <a href="#">Help Centre</a>
+                    <a href="#">FAQs</a>
+                    <a href="#">Contact Us</a>
+                </div>
+            </div>
+            <div>
+                <div class="footer-title">Get In Touch</div>
+                <div class="footer-links">
+                    <a href="#">pangginappe@gmail.com</a>
+                    <a href="#">+62 8950 6037 877</a>
+                </div>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div>
+                <div class="footer-title">Newsletter</div>
+                <div class="newsletter-input">
+                    <input type="email" placeholder="Enter your email" />
+                </div>
+                <button class="subscribe-btn" style="margin-top: 8px">
+                    Subscribe
+                </button>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2025 Panggin - Explore And Go Jatim. All rights reserved.
+        </div>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- 1. Simulasi Tombol Search ---
+            const searchButton = document.querySelector('.btn-search');
+            const searchInput = document.querySelector('.search-box input');
+
+            searchButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                const query = searchInput.value.trim();
+                if (query) {
+                    alert(`Mencari: "${query}" (Simulasi)`);
+                    // Di aplikasi nyata, ini akan mengarahkan ke halaman hasil pencarian.
+                } else {
+                    alert('Silakan masukkan kata kunci pencarian.');
+                }
+            });
+
+            // --- 2. Simulasi Tombol Detail Event ---
+            document.querySelectorAll('.btn-detail').forEach(button => {
+                button.addEventListener('click', () => {
+                    const eventTitle = button.closest('.event-card').querySelector('.event-info h3').textContent;
+                    alert(`Melihat detail untuk "${eventTitle}" (Simulasi)`);
+                });
+            });
+
+            // --- 3. Simulasi Tombol Load More ---
+            document.querySelector('.btn-load-more').addEventListener('click', () => {
+                alert('Memuat lebih banyak destinasi... (Simulasi)');
+                // Di aplikasi nyata, Anda akan menggunakan AJAX untuk memuat data.
+            });
+
+            // --- 4. Efek Scroll (Opsional: Memberikan efek pada Header jika diskroll)
+            const header = document.querySelector('.homepage-header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
+                    header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+                } else {
+                    header.style.backgroundColor = 'var(--bg-light)';
+                    header.style.boxShadow = '0 1px 5px rgba(0, 0, 0, 0.05)';
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

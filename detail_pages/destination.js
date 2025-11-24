@@ -9,7 +9,7 @@ function toggleMenu() {
 }
 
 function removeSeconds(timeString) {
-  return timeString.slice(0, 5);
+  if (timeString !== null) return timeString.slice(0, 5);
 }
 
 function toRupiah(value) {
@@ -103,7 +103,7 @@ function fillFields(selector, value) {
 }
 
 /* ---------------------- Render Event Cards ---------------------- */
-function renderEventCards(events) {
+function renderEventCards(events) {   
   const wrapper = document.querySelector(".card-wrapper");
   if (!wrapper) return;
 

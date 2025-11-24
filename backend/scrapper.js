@@ -22,19 +22,15 @@ function extractTime(str) {
 function extractDate(str) {
   if (!str) return null;
 
-  // bersihkan string
   const clean = str.replace("WIB", "").replace("s/d", "").trim();
 
-  // ambil bagian tanggal: "01 Oct 2025"
   const match = clean.match(/\d{1,2}\s\w{3}\s\d{4}/);
   if (!match) return null;
 
-  // konversi ke YYYY-MM-DD
   const date = new Date(match[0]);
 
   if (isNaN(date.getTime())) return null;
 
-  // format ke yyyy-mm-dd
   return date.toISOString().split("T")[0];
 }
 
@@ -70,7 +66,7 @@ async function scrapeListEvents(page) {
 }
 
 async function scrapeDetailEvent(url) {
-  await delay(300); // biar aman dari rate limit
+  await delay(300);
 
   const html = await http.get(url);
   const $ = cheerio.load(html.data);
